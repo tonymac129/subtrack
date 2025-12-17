@@ -1,30 +1,34 @@
-import { FaSpotify, FaGoogle, FaAmazon } from "react-icons/fa";
-import { RiNetflixFill } from "react-icons/ri";
-import { TbBrandDisney } from "react-icons/tb";
+import Image from "next/image";
 
 type SubscriptionCardProps = {
   name: string;
+  selected?: boolean;
 };
 
-const services: Record<string, { icon: React.ElementType; color?: string }> = {
-  spotify: { icon: FaSpotify, color: "1DB954" },
-  googleone: { icon: FaGoogle },
-  amazon: { icon: FaAmazon, color: "orange" },
-  disney: { icon: TbBrandDisney, color: "blue" },
-  netflix: { icon: RiNetflixFill, color: "red" },
-  hulu: { icon: RiNetflixFill, color: "green" },
+const services: Record<string, string> = {
+  chatgptplus: "chatgpt.png",
+  disney: "disney.png",
+  githubpro: "github.png",
+  googleone: "google.webp",
+  hbomax: "hbo.png",
+  hulu: "hulu.png",
+  netflix: "netflix.png",
+  amazonprime: "prime.png",
+  spotifypremium: "spotify.png",
+  youtubepremium: "youtube.webp",
 };
 
-function SubscriptionCard({ name }: SubscriptionCardProps) {
+function SubscriptionCard({ name, selected }: SubscriptionCardProps) {
   const shortName = name.toLowerCase().replaceAll("+", "").replace(" ", "");
-  const Icon = services[shortName].icon;
 
   return (
     <div
-      className="border-2 rounded-lg cursor-pointer text-lg border-gray-700 text-center
-                    px-5 py-3 text-gray-100 hover:bg-gray-900 duration-300 flex flex-col gap-y-2 items-center w-30"
+      className={`border-2 rounded-lg cursor-pointer leading-5 border-${selected ? "blue" : "gray"}-700 text-center
+                    px-5 py-3 text-gray-100 h-35 hover:bg-gray-900 duration-300 flex flex-col gap-y-2 items-center w-30`}
     >
-      <Icon color={services[shortName].color || "white"} size={40} />
+      <div className="h-15 flex items-center">
+        <Image src={"/services/" + services[shortName]} alt="Logo" height={40} width={55} />
+      </div>
       {name}
     </div>
   );
