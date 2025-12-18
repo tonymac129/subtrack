@@ -13,6 +13,10 @@ body {
   @apply text-gray-100 px-5 py-2 hover:bg-gray-900 cursor-pointer duration-300;
 }
 
+.modal-select {
+  @apply text-gray-100 appearance-none border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-100 cursor-pointer;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }
