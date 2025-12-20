@@ -17,6 +17,10 @@ body {
   @apply text-gray-100 appearance-none border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-100 cursor-pointer;
 }
 
+.option-item {
+  @apply cursor-pointer hover:bg-gray-900 duration-300 rounded-md px-3 py-2 flex gap-x-3 items-center;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }

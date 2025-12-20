@@ -27,7 +27,7 @@ function Modal({ children, close }: ModalProps) {
     <motion.div
       exit={{ opacity: 0 }}
       ref={modalBgRef}
-      className="w-screen h-screen absolute top-0 left-0 flex items-center justify-center bg-gray-950/70 backdrop-blur-xs overflow-hidden"
+      className="w-screen h-screen z-50 fixed top-0 left-0 flex items-center justify-center bg-gray-950/70 backdrop-blur-xs overflow-hidden"
     >
       <motion.div
         initial={{ y: 50, scale: 0, opacity: 0 }}
