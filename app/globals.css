@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
-  background: #090b0f;
+  background: #030712;
   font-family: var(--font-inter-sans);
 }
 
@@ -15,6 +19,10 @@ body {
 
 .modal-select {
   @apply text-gray-100 appearance-none border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-100 cursor-pointer;
+}
+
+.modal-open {
+  overflow: hidden;
 }
 
 .option-item {

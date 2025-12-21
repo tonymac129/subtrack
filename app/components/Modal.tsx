@@ -6,9 +6,11 @@ import { motion } from "framer-motion";
 type ModalProps = {
   children: React.ReactNode;
   close: () => void;
+  width?: number;
+  height?: number;
 };
 
-function Modal({ children, close }: ModalProps) {
+function Modal({ children, close, width, height }: ModalProps) {
   const modalBgRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -27,13 +29,14 @@ function Modal({ children, close }: ModalProps) {
     <motion.div
       exit={{ opacity: 0 }}
       ref={modalBgRef}
-      className="w-screen h-screen z-50 fixed top-0 left-0 flex items-center justify-center bg-gray-950/70 backdrop-blur-xs overflow-hidden"
+      className="w-screen h-screen z-50 fixed top-0 left-0 flex items-center justify-center bg-gray-950/70 backdrop-blur-xs      overflow-hidden"
     >
       <motion.div
         initial={{ y: 50, scale: 0, opacity: 0 }}
         animate={{ y: 0, scale: 1, opacity: 1 }}
         exit={{ y: 100, scale: 0 }}
         className="bg-[rgb(10,10,20)] p-10 w-[50%] h-[90%] rounded-lg overflow-hidden"
+        style={{ width: width ? width + "px" : "", height: height ? height + "px" : "" }}
       >
         {children}
       </motion.div>

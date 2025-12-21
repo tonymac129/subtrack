@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar";
+import Gate from "./Gate";
+
 import "./globals.css";
 
 const inter = Inter({
@@ -14,19 +16,17 @@ export const metadata: Metadata = {
   description: "Subtrack is the best manager for keeping track of all your subscriptions, accounts, projects, and more!",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        <Nav />
-        <div className="flex pl-45">
-          <Sidebar />
-          {children}
-        </div>
+        <Gate>
+          <Nav />
+          <div className="flex pl-45">
+            <Sidebar />
+            {children}
+          </div>
+        </Gate>
       </body>
     </html>
   );
