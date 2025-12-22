@@ -3,8 +3,8 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
-import Modal from "../components/Modal";
-import AddModal from "../components/ui/AddModal";
+import Modal from "@/components/Modal";
+import AddModal from "@/components/modals/AddModal";
 
 type SubscriptionItemProps = {
   subscription: SubscriptionType;

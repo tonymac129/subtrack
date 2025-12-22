@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 function LoginBtn() {
   const login = useGoogleLogin({
     onSuccess: (credentialResponse) => {
-      console.log(credentialResponse);
       handleLogin(credentialResponse.access_token);
     },
     onError: () => {
@@ -19,9 +18,6 @@ function LoginBtn() {
       },
     })
       .then((res) => res.json())
-      .then((user) => {
-        console.log(user);
-      })
       .catch((err) => console.error(err));
   }
 

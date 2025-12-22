@@ -5,8 +5,9 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Modal from "./Modal";
-import ProfileModal from "./ui/ProfileModal";
+import ProfileModal from "./modals/ProfileModal";
 import { UserType } from "@/types/user";
+import Image from "next/image";
 
 function Nav() {
   const [userOpen, setUserOpen] = useState<boolean>(false);
@@ -42,7 +43,8 @@ function Nav() {
 
   return (
     <nav className="flex items-center justify-between px-50 py-1 border-b-2 border-gray-700">
-      <Link href="/" className="text-white font-bold text-2xl">
+      <Link href="/" className="text-white font-bold text-xl flex items-center gap-x-3">
+        <Image src="/logo.png" alt="Subtrack Logo" width={30} height={30} />
         Subtrack
       </Link>
       <div className="relative" ref={dropdownRef}>

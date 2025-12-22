@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SubscriptionType, ServicesType } from "@/types/subscriptions";
-import SubscriptionCard from "../../subscriptions/SubscriptionCard";
+import SubscriptionCard from "@/app/subscriptions/SubscriptionCard";
 
 type AddModalProps = {
   close: () => void;

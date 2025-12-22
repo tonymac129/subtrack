@@ -2,7 +2,7 @@
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useState } from "react";
-import LoginBtn from "./LoginBtn";
+import LoginBtn from "../ui/LoginBtn";
 
 const clientId = "742944367854-ei4dk3hutnigif1kk7ggja04m6kuqln4.apps.googleusercontent.com";
 

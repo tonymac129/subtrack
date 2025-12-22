@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-html {
-  scrollbar-gutter: stable;
-}
-
 body {
   background: #030712;
   font-family: var(--font-inter-sans);
@@ -11,6 +7,10 @@ body {
 
 .sidebar-item {
   @apply text-gray-100 text-lg font-semibold rounded-lg px-5 py-2 hover:bg-gray-900 transition-colors duration-300;
+}
+
+.sidebar-item-selected {
+  @apply text-blue-400 text-lg font-semibold rounded-lg px-5 py-2 bg-gray-900 transition-colors duration-300;
 }
 
 .dropdown-item {

@@ -6,8 +6,8 @@ import { useState, useMemo, useEffect } from "react";
 import { ServicesType, SubscriptionType } from "@/types/subscriptions";
 import { AnimatePresence } from "framer-motion";
 import SubscriptionItem from "./SubscriptionItem";
-import Modal from "../components/Modal";
-import AddModal from "../components/ui/AddModal";
+import Modal from "@/components/Modal";
+import AddModal from "@/components/modals/AddModal";
 
 // const subs: string[] = [
 //   "ChatGPT Plus",
@@ -43,7 +43,6 @@ const services: ServicesType = [
 function Page() {
   const [search, setSearch] = useState<string>("");
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
-  const [sortMethod, setSortMethod] = useState<string>("created");
   const [userSubs, setUserSubs] = useState<SubscriptionType[]>(() => {
     const stored = localStorage.getItem("subtrack-subs");
     return stored ? JSON.parse(stored) : [];
@@ -102,12 +101,9 @@ function Page() {
           return a.id.localeCompare(b.id);
         });
         break;
-      default:
-        console.log("Sort method not found");
     }
     if (newUserSubs[0] === userSubs[0]) newUserSubs.reverse();
     setUserSubs(newUserSubs);
-    setSortMethod(method);
   }
 
   return (
