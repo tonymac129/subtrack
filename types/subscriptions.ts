@@ -19,4 +19,6 @@ export type SubscriptionType = {
   price: number;
   name: string;
   description: string;
+  duration:string;
+  timeCreated: Date;
 };

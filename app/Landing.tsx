@@ -8,7 +8,11 @@ import Link from "next/link";
 import Modal from "./components/Modal";
 import LoginModal from "./components/ui/LoginModal";
 
-function Landing() {
+type LandingProps = {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function Landing({ setIsLoggedIn }: LandingProps) {
   const [signUpOpen, setSignUpOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -18,6 +22,10 @@ function Landing() {
       document.documentElement.classList.remove("modal-open");
     }
   }, [signUpOpen]);
+
+  function handleGuest(): void {
+    setIsLoggedIn(true);
+  }
 
   return (
     <div className="bg-gray-950 flex flex-col">
@@ -54,6 +62,7 @@ function Landing() {
             className="px-7 py-2 rounded-lg border-2 border-gray-500 hover:bg-gray-900 
             cursor-pointer text-white text-lg duration-300 font-bold"
             title="Data is stored locally in browser storage"
+            onClick={handleGuest}
           >
             Guest mode
           </button>

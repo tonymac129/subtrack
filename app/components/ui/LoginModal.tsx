@@ -30,24 +30,21 @@ function LoginModal() {
               placeholder="User"
               value={credentials.user}
               onChange={(e) => setCredentials({ ...credentials, user: e.target.value })}
-              className="text-gray-100 border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-full"
+              className="modal-input w-full!"
             />
           </label>
           <label className="flex flex-col gap-y-1 text-gray-400">
             Password
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               value={credentials.password}
               onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-              className="text-gray-100 border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-full"
+              className="modal-input w-full!"
             />
           </label>
         </div>
-        <button
-          className="rounded-lg text-gray-100 py-2 cursor-pointer bg-blue-600 w-full text-center text-lg mt-2"
-          type="submit"
-        >
+        <button className="modal-btn" type="submit">
           Sign in
         </button>
         <div className="h-0.5 bg-gray-500 relative my-2">

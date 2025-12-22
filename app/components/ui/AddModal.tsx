@@ -3,41 +3,51 @@
 import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SubscriptionType, ServicesType } from "@/types/subscriptions";
-import SubscriptionCard from "./SubscriptionCard";
+import SubscriptionCard from "../../subscriptions/SubscriptionCard";
 
 type AddModalProps = {
   close: () => void;
   services: ServicesType;
   userSubs: SubscriptionType[];
   setUserSubs: React.Dispatch<React.SetStateAction<SubscriptionType[]>>;
+  importedData?: SubscriptionType;
 };
 
-function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
+function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddModalProps) {
   const [search, setSearch] = useState("");
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(importedData ? 1 : 0);
   const [dir, setDir] = useState(true);
   const displayed = useMemo(
     () => services.filter((subscription) => subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())),
     [services, search]
   );
   const [selected, setSelected] = useState<null | number>(null);
-  const [newSubscription, setNewSubscription] = useState<SubscriptionType>({
-    id: crypto.randomUUID(),
-    serviceid: 0,
-    service: "",
-    plan: "",
-    price: 0,
-    name: "",
-    description: "",
-  });
+  const [newSubscription, setNewSubscription] = useState<SubscriptionType>(
+    importedData || {
+      id: crypto.randomUUID(),
+      serviceid: 0,
+      service: "",
+      plan: "",
+      price: 0,
+      name: "",
+      description: "",
+      duration: "month",
+      timeCreated: new Date(),
+    }
+  );
 
   useEffect(() => {
     if (index === 3) {
-      console.log(newSubscription);
-      setUserSubs([...userSubs, newSubscription]);
+      if (importedData) {
+        const copy = [...userSubs];
+        copy[userSubs.findIndex((sub) => sub.id === importedData.id)] = newSubscription;
+        setUserSubs(copy);
+      } else {
+        setUserSubs([...userSubs, newSubscription]);
+      }
       close();
     }
-  }, [index, close, newSubscription, userSubs, setUserSubs]);
+  }, [index, close, newSubscription, userSubs, setUserSubs, importedData]);
 
   return (
     <div className="flex flex-col gap-y-5 relative h-full">
@@ -55,7 +65,7 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
             <input
               type="text"
               placeholder="Search subscriptions"
-              className="text-gray-100 border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-100"
+              className="modal-input w-100"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -67,7 +77,11 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
                       key={i}
                       onClick={() => {
                         setSelected(selected === i ? null : i);
-                        setNewSubscription({ ...newSubscription, service: sub.name, serviceid: sub.id });
+                        setNewSubscription({
+                          ...newSubscription,
+                          service: selected !== i ? sub.name : "",
+                          serviceid: selected !== i ? sub.id : 0,
+                        });
                       }}
                     >
                       <SubscriptionCard id={sub.id} selected={i === selected} services={services} />
@@ -101,13 +115,17 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
               <select
                 name="Available plans"
                 className="modal-select"
-                onChange={(e) =>
+                value={services[newSubscription.serviceid].plans.indexOf(
+                  services[newSubscription.serviceid].plans.find((plan) => plan.name === newSubscription.plan)
+                )}
+                onChange={(e) => {
                   setNewSubscription({
                     ...newSubscription,
                     plan: services[newSubscription.serviceid].plans[Number(e.target.value)].name,
                     price: services[newSubscription.serviceid].plans[Number(e.target.value)].price,
-                  })
-                }
+                    duration: "month",
+                  });
+                }}
               >
                 {services[newSubscription.serviceid].plans.map((plan, i) => {
                   return (
@@ -131,17 +149,19 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
                 placeholder="Amount"
                 value={newSubscription.price}
                 onChange={(e) => setNewSubscription({ ...newSubscription, price: Number(e.target.value) })}
-                className="text-gray-100 border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-100"
+                className="modal-input w-100"
               />
             </label>
             <label className="flex flex-col gap-y-1 text-gray-400">
               How often
               <select
                 className="modal-select"
+                value={newSubscription.duration}
                 onChange={(e) =>
                   setNewSubscription({
                     ...newSubscription,
                     price: e.target.value === "month" ? newSubscription.price / 12 : newSubscription.price * 12,
+                    duration: e.target.value,
                   })
                 }
               >
@@ -171,7 +191,7 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
                 placeholder="Name"
                 value={newSubscription.name}
                 onChange={(e) => setNewSubscription({ ...newSubscription, name: e.target.value })}
-                className="text-gray-100 border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-100"
+                className="modal-input w-100"
               />
             </label>
             <label className="flex flex-col gap-y-1 text-gray-400">
@@ -179,7 +199,7 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
               <input
                 type="text"
                 placeholder="Description"
-                className="text-gray-100 border-2 border-gray-700 rounded-lg text-lg outline-none px-5 py-1 w-100"
+                className="modal-input w-100"
                 value={newSubscription.description}
                 onChange={(e) => setNewSubscription({ ...newSubscription, description: e.target.value })}
               />
@@ -188,20 +208,40 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
         )}
       </AnimatePresence>
       <div className="absolute bottom-0 flex w-full justify-between flex-row-reverse">
-        <button
-          className="rounded-lg bg-blue-700 text-white px-5 py-2 border-2 border-blue-700 cursor-pointer
+        {newSubscription.service && (
+          <button
+            className="rounded-lg bg-blue-700 text-white px-5 py-2 border-2 border-blue-700 cursor-pointer
           hover:shadow-[0_0_10px_#4040ff] duration-300"
-          onClick={() => {
-            if (index === 1) {
-              setNewSubscription({ ...newSubscription, name: newSubscription.service + " " + newSubscription.plan + " Plan" });
-            }
-            setIndex(index + 1);
-            setDir(true);
-          }}
-        >
-          {index === 2 ? "Finish" : "Next"}
-        </button>
-        {index !== 0 && (
+            onClick={() => {
+              if (index === 0) {
+                setNewSubscription({
+                  ...newSubscription,
+                  plan: services[newSubscription.serviceid].plans[0].name,
+                  price: services[newSubscription.serviceid].plans[0].price,
+                });
+              }
+              if (index === 1 && !importedData) {
+                setNewSubscription({ ...newSubscription, name: newSubscription.service + " " + newSubscription.plan + " Plan" });
+              }
+              setIndex(index + 1);
+              setDir(true);
+            }}
+          >
+            {index === 2 ? "Finish" : "Next"}
+          </button>
+        )}
+        {index !== 0 && !importedData && (
+          <button
+            className="rounded-lg text-gray-100 px-5 py-2 border-2 border-gray-700 cursor-pointer"
+            onClick={() => {
+              setIndex(index - 1);
+              setDir(false);
+            }}
+          >
+            Back
+          </button>
+        )}
+        {index !== 1 && importedData && (
           <button
             className="rounded-lg text-gray-100 px-5 py-2 border-2 border-gray-700 cursor-pointer"
             onClick={() => {
@@ -218,3 +258,5 @@ function AddModal({ close, services, userSubs, setUserSubs }: AddModalProps) {
 }
 
 export default AddModal;
+
+//help this modal component is doing way too much but im too scared to refactor 🥀

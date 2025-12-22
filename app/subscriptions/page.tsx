@@ -7,7 +7,7 @@ import { ServicesType, SubscriptionType } from "@/types/subscriptions";
 import { AnimatePresence } from "framer-motion";
 import SubscriptionItem from "./SubscriptionItem";
 import Modal from "../components/Modal";
-import AddModal from "./AddModal";
+import AddModal from "../components/ui/AddModal";
 
 // const subs: string[] = [
 //   "ChatGPT Plus",
@@ -43,6 +43,7 @@ const services: ServicesType = [
 function Page() {
   const [search, setSearch] = useState<string>("");
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const [sortMethod, setSortMethod] = useState<string>("created");
   const [userSubs, setUserSubs] = useState<SubscriptionType[]>(() => {
     const stored = localStorage.getItem("subtrack-subs");
     return stored ? JSON.parse(stored) : [];
@@ -55,6 +56,59 @@ function Page() {
   useEffect(() => {
     localStorage.setItem("subtrack-subs", JSON.stringify(userSubs));
   }, [userSubs]);
+
+  function handleSort(method: string): void {
+    const newUserSubs = [...userSubs];
+    switch (method) {
+      case "name":
+        newUserSubs.sort((a, b) => {
+          const first = a.name.localeCompare(b.name);
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
+      case "description":
+        newUserSubs.sort((a, b) => {
+          const first = a.description.localeCompare(b.description);
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
+      case "amount":
+        newUserSubs.sort((a, b) => {
+          const first = a.price - b.price;
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
+      case "duration":
+        newUserSubs.sort((a, b) => {
+          const first = b.duration.localeCompare(a.duration);
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
+      case "created":
+        newUserSubs.sort((a, b) => {
+          const first = new Date(a.timeCreated).getTime() - new Date(b.timeCreated).getTime();
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
+      case "service":
+        newUserSubs.sort((a, b) => {
+          const first = a.service.localeCompare(b.service);
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
+      default:
+        console.log("Sort method not found");
+    }
+    if (newUserSubs[0] === userSubs[0]) newUserSubs.reverse();
+    setUserSubs(newUserSubs);
+    setSortMethod(method);
+  }
 
   return (
     <div className=" flex flex-col flex-1 gap-y-5 py-10 pl-10 overflow-auto h-[calc(100vh-57px)] pr-50">
@@ -87,10 +141,25 @@ function Page() {
       </div>
       <div>
         <div className="flex text-gray-400 pb-2 text-sm w-full">
-          <div className="flex-2">Subscription name</div>
-          <div className="flex-1">Description</div>
-          <div className="flex-1">Amount</div>
-          <div className="flex-1">Service</div>
+          <div className="flex-3 cursor-pointer" onClick={() => handleSort("name")}>
+            Subscription name
+          </div>
+          <div className="flex-1 cursor-pointer" onClick={() => handleSort("description")}>
+            Description
+          </div>
+          <div className="flex-1 cursor-pointer" onClick={() => handleSort("amount")}>
+            Amount
+          </div>
+          <div className="flex-1 cursor-pointer" onClick={() => handleSort("duration")}>
+            Duration
+          </div>
+          <div className="flex-1 cursor-pointer" onClick={() => handleSort("created")}>
+            Created
+          </div>
+          <div className="flex-1 cursor-pointer" onClick={() => handleSort("service")}>
+            {/*TODO: derive these headers dynamically from array */}
+            Service
+          </div>
           <div className="w-3.75"></div>
         </div>
         <hr className="h-0.5 bg-gray-700 border-none" />
@@ -98,7 +167,9 @@ function Page() {
       <div className="flex flex-col gap-y-1">
         {displayed.length > 0 ? (
           displayed.map((sub, i) => {
-            return <SubscriptionItem key={i} subscription={sub} userSubs={userSubs} setUserSubs={setUserSubs} />;
+            return (
+              <SubscriptionItem key={i} subscription={sub} userSubs={userSubs} setUserSubs={setUserSubs} services={services} />
+            );
           })
         ) : (
           <div className="text-gray-100">
