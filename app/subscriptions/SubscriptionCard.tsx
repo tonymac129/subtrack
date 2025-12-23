@@ -9,15 +9,15 @@ type SubscriptionCardProps = {
 
 const serviceIcons: string[] = [
   "chatgpt.png",
-  "disney.png",
   "github.png",
-  "google.webp",
   "hbo.png",
-  "hulu.png",
+  "youtube.webp",
+  "google.webp",
   "netflix.png",
+  "disney.png",
   "prime.png",
   "spotify.png",
-  "youtube.webp",
+  "hulu.png",
 ];
 
 function SubscriptionCard({ id, selected, services }: SubscriptionCardProps) {

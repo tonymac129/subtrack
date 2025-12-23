@@ -64,7 +64,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
           >
             <input
               type="text"
-              placeholder="Search subscriptions"
+              placeholder="Search services"
               className="modal-input w-100"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -109,7 +109,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
             transition={{ duration: 0.5, type: "spring" }}
             className="flex flex-col gap-y-5"
           >
-            <div className="text-gray-100 text-xl font-bold">{newSubscription.name}</div>
+            <div className="text-gray-100 text-xl font-bold">Choose a plan for {services[selected].name}</div>
             <label className="flex flex-col gap-y-1 text-gray-400">
               Select a plan
               <select
@@ -141,6 +141,9 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                   Custom
                 </option>
               </select>
+              <a href="https://github.com/tonymac129/subtrack/issues" className="text-xs hover:underline" target="_blank">
+                Can&apos;t find your plan or inaccurate pricing? Submit an issue!
+              </a>
             </label>
             <label className="flex flex-col gap-y-1 text-gray-400">
               Price
@@ -184,6 +187,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
             transition={{ duration: 0.5, type: "spring" }}
             className="flex flex-col gap-y-5"
           >
+            <div className="text-gray-100 text-xl font-bold">Customize {services[selected].name} subscription</div>
             <label className="flex flex-col gap-y-1 text-gray-400">
               Subscription name
               <input

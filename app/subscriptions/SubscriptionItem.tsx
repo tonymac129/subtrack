@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
 import Modal from "@/components/Modal";
 import AddModal from "@/components/modals/AddModal";
+import WarningModal from "@/components/modals/WarningModal";
 
 type SubscriptionItemProps = {
   subscription: SubscriptionType;
@@ -60,24 +61,10 @@ function SubscriptionItem({ subscription, userSubs, setUserSubs, services }: Sub
       <AnimatePresence>
         {confirmDelete && (
           <Modal close={() => setConfirmDelete(false)} height={250} width={450}>
-            <div className="text-lg">
+            <WarningModal operation={handleDelete} close={() => setConfirmDelete(false)}>
               Are you sure you want to <span className="text-red-500">delete</span> this subscription and its related information?
               This action cannot be undone.
-              <div className="flex gap-x-5 py-5">
-                <button
-                  className="bg-red-500 border-2 border-red-500 rounded-lg font-bold px-4 py-2 cursor-pointer"
-                  onClick={handleDelete}
-                >
-                  Confirm
-                </button>
-                <button
-                  className="border-2 border-gray-700 rounded-lg font-bold px-4 py-2 cursor-pointer"
-                  onClick={() => setConfirmDelete(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+            </WarningModal>
           </Modal>
         )}
         {editing && (

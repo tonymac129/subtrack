@@ -8,6 +8,7 @@ import { AnimatePresence } from "framer-motion";
 import SubscriptionItem from "./SubscriptionItem";
 import Modal from "@/components/Modal";
 import AddModal from "@/components/modals/AddModal";
+import WarningModal from "@/components/modals/WarningModal";
 
 // const subs: string[] = [
 //   "ChatGPT Plus",
@@ -25,11 +26,82 @@ import AddModal from "@/components/modals/AddModal";
 const services: ServicesType = [
   {
     id: 0,
-    name: "ChatGPT Plus",
-    plans: [{ name: "Individual", price: 10.0 }],
+    name: "ChatGPT",
+    plans: [
+      { name: "Plus", price: 20.0 },
+      { name: "Business", price: 25.0 },
+      { name: "Pro", price: 200.0 },
+    ],
   },
   {
     id: 1,
+    name: "GitHub Pro",
+    plans: [
+      { name: "Team", price: 4.0 },
+      { name: "Enterprise", price: 21.0 },
+    ],
+  },
+  {
+    id: 2,
+    name: "HBO Max",
+    plans: [
+      { name: "Basic With Ads", price: 10.99 },
+      { name: "Standard", price: 18.49 },
+      { name: "Premium", price: 22.99 },
+      { name: "Bundles coming soon", price: 0.0 },
+      //TODO: add bundle option
+    ],
+  },
+  {
+    id: 3,
+    name: "YouTube Premium",
+    plans: [
+      { name: "Individual", price: 13.99 },
+      { name: "Family", price: 22.99 },
+      { name: "Student", price: 7.99 },
+      { name: "Premium Lite", price: 7.99 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Google One",
+    plans: [
+      { name: "Basic", price: 1.99 },
+      { name: "Standard", price: 2.99 },
+      { name: "Premium", price: 9.99 },
+      { name: "Google AI Pro", price: 19.99 },
+      { name: "Google AI Ultra", price: 249.99 },
+    ],
+  },
+  {
+    id: 5,
+    name: "Netflix",
+    plans: [
+      { name: "Standard with Ads", price: 7.99 },
+      { name: "Standard", price: 17.99 },
+      { name: "Premium", price: 24.99 },
+    ],
+  },
+  {
+    id: 6,
+    name: "Disney+",
+    plans: [
+      { name: "Disney+", price: 11.99 },
+      { name: "Disney+ Premium", price: 18.99 },
+      { name: "Bundles coming soon", price: 0.0 },
+    ],
+  },
+  {
+    id: 7,
+    name: "Amazon Prime",
+    plans: [
+      { name: "Prime Monthly", price: 14.99 },
+      { name: "Prime for Young Adults", price: 7.49 },
+      { name: "Prime Access", price: 6.99 },
+    ],
+  },
+  {
+    id: 8,
     name: "Spotify Premium",
     plans: [
       { name: "Individual", price: 11.99 },
@@ -38,11 +110,21 @@ const services: ServicesType = [
       { name: "Student", price: 5.99 },
     ],
   },
+  {
+    id: 9,
+    name: "Hulu",
+    plans: [
+      { name: "Hulu", price: 11.99 },
+      { name: "Hulu Student", price: 1.99 },
+      { name: "Hulu Premium", price: 18.99 },
+    ],
+  },
 ];
 
 function Page() {
   const [search, setSearch] = useState<string>("");
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const [showWarningModal, setShowWarningModal] = useState<boolean>(false);
   const [userSubs, setUserSubs] = useState<SubscriptionType[]>(() => {
     const stored = localStorage.getItem("subtrack-subs");
     return stored ? JSON.parse(stored) : [];
@@ -106,6 +188,11 @@ function Page() {
     setUserSubs(newUserSubs);
   }
 
+  function handleClear(): void {
+    setUserSubs([]);
+    setShowWarningModal(false);
+  }
+
   return (
     <div className=" flex flex-col flex-1 gap-y-5 py-10 pl-10 overflow-auto h-[calc(100vh-57px)] pr-50">
       <div
@@ -117,22 +204,29 @@ function Page() {
         Add a Subscription
       </div>
       <h2 className="text-white text-2xl font-bold">Your subscriptions</h2>
-      <div className="border-2 border-gray-700 rounded-lg w-100 relative">
-        <input
-          type="text"
-          placeholder="Search subscriptions"
-          className="text-gray-100 text-lg outline-none w-full px-5 py-1 "
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {search.length > 0 && (
-          <CgClose
-            size={30}
-            color="white"
-            className="absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer rounded-md hover:bg-gray-900 p-1 duration-300"
-            title="Clear search"
-            onClick={() => setSearch("")}
+      <div className="relative flex items-center">
+        <div className="border-2 border-gray-700 rounded-lg w-100 relative">
+          <input
+            type="text"
+            placeholder="Search subscriptions"
+            className="text-gray-100 text-lg outline-none w-full px-5 py-1 "
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
+          {search.length > 0 && (
+            <CgClose
+              size={30}
+              color="white"
+              className="absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer rounded-md hover:bg-gray-900 p-1 duration-300"
+              title="Clear search"
+              onClick={() => setSearch("")}
+            />
+          )}
+        </div>
+        {userSubs.length > 0 && (
+          <div className="text-red-500 absolute right-0 cursor-pointer hover:underline" onClick={() => setShowWarningModal(true)}>
+            Clear subscriptions
+          </div>
         )}
       </div>
       <div>
@@ -181,6 +275,14 @@ function Page() {
         {showAddModal && (
           <Modal close={() => setShowAddModal(false)}>
             <AddModal close={() => setShowAddModal(false)} services={services} userSubs={userSubs} setUserSubs={setUserSubs} />
+          </Modal>
+        )}
+        {showWarningModal && (
+          <Modal close={() => setShowWarningModal(false)} height={250} width={450}>
+            <WarningModal operation={handleClear} close={() => setShowWarningModal(false)}>
+              Are you sure you want to clear your subscriptions? This will <span className="text-red-500">delete</span> all of
+              your subscriptions and their data! This action cannot be undone.
+            </WarningModal>
           </Modal>
         )}
       </AnimatePresence>
