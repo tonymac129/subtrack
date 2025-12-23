@@ -1,3 +1,5 @@
+"use client";
+
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 
@@ -6,6 +8,8 @@ type LoginBtnProps = {
 };
 
 function LoginBtn({ setIsLoggedIn }: LoginBtnProps) {
+  const root = process.env.NEXT_PUBLIC_ROOT_URL;
+
   const login = useGoogleLogin({
     onSuccess: (credentialResponse) => {
       handleLogin(credentialResponse.access_token);
@@ -16,7 +20,7 @@ function LoginBtn({ setIsLoggedIn }: LoginBtnProps) {
   });
 
   async function handleLogin(jwt: string) {
-    const res = await fetch("http://localhost:3000/api/user/login/google", {
+    const res = await fetch(`${root}/api/user/login/google`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
