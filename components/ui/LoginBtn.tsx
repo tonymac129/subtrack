@@ -1,7 +1,11 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 
-function LoginBtn() {
+type LoginBtnProps = {
+  setIsLoggedIn: () => void;
+};
+
+function LoginBtn({ setIsLoggedIn }: LoginBtnProps) {
   const login = useGoogleLogin({
     onSuccess: (credentialResponse) => {
       handleLogin(credentialResponse.access_token);
@@ -11,14 +15,19 @@ function LoginBtn() {
     },
   });
 
-  function handleLogin(jwt: string) {
-    fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+  async function handleLogin(jwt: string) {
+    const res = await fetch("http://localhost:3000/api/user/login/google", {
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .catch((err) => console.error(err));
+      body: JSON.stringify({ jwt: jwt }),
+    });
+    const message = await res.json();
+    if (message.username) {
+      sessionStorage.setItem("subtrack-user", JSON.stringify(message));
+      setIsLoggedIn();
+    }
   }
 
   return (

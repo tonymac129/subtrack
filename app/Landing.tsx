@@ -7,21 +7,23 @@ import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Modal from "@/components/Modal";
 import LoginModal from "@/components/modals/LoginModal";
+import SignupModal from "@/components/modals/SignupModal";
 
 type LandingProps = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function Landing({ setIsLoggedIn }: LandingProps) {
-  const [signUpOpen, setSignUpOpen] = useState<boolean>(false);
+  const [loginOpen, setloginOpen] = useState<boolean>(false);
+  const [signupOpen, setSignupOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (signUpOpen) {
+    if (loginOpen) {
       document.documentElement.classList.add("modal-open");
     } else {
       document.documentElement.classList.remove("modal-open");
     }
-  }, [signUpOpen]);
+  }, [loginOpen]);
 
   function handleGuest(): void {
     setIsLoggedIn(true);
@@ -34,13 +36,22 @@ function Landing({ setIsLoggedIn }: LandingProps) {
         <Link href="/" className="text-white font-bold text-2xl">
           Subtrack
         </Link>
-        <button
-          className="px-4 py-1.5 rounded-sm bg-blue-600 hover:bg-blue-700 
+        <div className="flex gap-x-3">
+          <button
+            className="px-4 py-1.5 rounded-sm bg-blue-600 hover:bg-blue-700 
           cursor-pointer text-white text-md duration-300 font-bold"
-          onClick={() => setSignUpOpen(true)}
-        >
-          Log in
-        </button>
+            onClick={() => setloginOpen(true)}
+          >
+            Log in
+          </button>
+          <button
+            className="px-4 py-1.5 rounded-sm bg-blue-600 hover:bg-blue-700 
+          cursor-pointer text-white text-md duration-300 font-bold"
+            onClick={() => setSignupOpen(true)}
+          >
+            Sign up
+          </button>
+        </div>
       </nav>
       <div className="flex flex-col items-center justify-center text-center px-5 py-20 gap-y-8">
         <h1 className="text-5xl font-extrabold text-white">
@@ -55,7 +66,7 @@ function Landing({ setIsLoggedIn }: LandingProps) {
             className="px-7 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 
           cursor-pointer text-white text-lg duration-300 font-bold"
             title="Data is stored securely in the cloud with syncing, backup, and more customizations enabled."
-            onClick={() => setSignUpOpen(true)}
+            onClick={() => setloginOpen(true)}
           >
             Log in
           </button>
@@ -137,9 +148,14 @@ function Landing({ setIsLoggedIn }: LandingProps) {
         </div>
       </footer>
       <AnimatePresence>
-        {signUpOpen && (
-          <Modal close={() => setSignUpOpen(false)} width={450} height={450}>
-            <LoginModal />
+        {loginOpen && (
+          <Modal close={() => setloginOpen(false)} width={450} height={500}>
+            <LoginModal setIsLoggedIn={() => setIsLoggedIn(true)} />
+          </Modal>
+        )}
+        {signupOpen && (
+          <Modal close={() => setSignupOpen(false)} width={450} height={500}>
+            <SignupModal setIsLoggedIn={() => setIsLoggedIn(true)} />
           </Modal>
         )}
       </AnimatePresence>

@@ -12,17 +12,17 @@ type CredentialsType = {
   password: string;
 };
 
-type LoginModalProps = {
+type SignupModalProps = {
   setIsLoggedIn: () => void;
 };
 
-function LoginModal({ setIsLoggedIn }: LoginModalProps) {
+function SignupModal({ setIsLoggedIn }: SignupModalProps) {
   const [credentials, setCredentials] = useState<CredentialsType>({ user: "", password: "" });
-  const [loginFailed, setLoginFailed] = useState<boolean>(false);
+  const [SignupFailed, setSignupFailed] = useState<boolean>(false);
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
-    const res = await fetch("/api/user/login", {
+    const res = await fetch("/api/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,19 +30,18 @@ function LoginModal({ setIsLoggedIn }: LoginModalProps) {
       body: JSON.stringify({ username: credentials.user, password: credentials.password }),
     });
     const message = await res.json();
-    if (message.message) {
-      setLoginFailed(true);
-    } else {
+    if (!message.message) {
       sessionStorage.setItem("subtrack-user", JSON.stringify(message));
       setIsLoggedIn();
     }
+    setSignupFailed(message.message);
     //TODO: finish implementing login logic
   }
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <form className="flex flex-col gap-y-5" onSubmit={(e) => handleLogin(e)}>
-        <h2 className="text-white text-2xl text-center font-bold">Subtrack Login</h2>
+        <h2 className="text-white text-2xl text-center font-bold">Subtrack Signup</h2>
         <div className="flex flex-col gap-y-3">
           <label className="flex flex-col gap-y-1 text-gray-400">
             Username or email
@@ -64,14 +63,14 @@ function LoginModal({ setIsLoggedIn }: LoginModalProps) {
               className="modal-input w-full!"
             />
           </label>
-          {loginFailed && (
+          {SignupFailed && (
             <div className="text-red-500 flex items-center gap-x-2">
-              <IoWarning size={25} /> Login failed. Check your credentials.
+              <IoWarning size={25} /> Someone already has that username.
             </div>
           )}
         </div>
         <button className="modal-btn" type="submit">
-          Sign in
+          Sign up
         </button>
         <div className="h-0.5 bg-gray-500 relative my-2">
           <div
@@ -87,4 +86,4 @@ function LoginModal({ setIsLoggedIn }: LoginModalProps) {
   );
 }
 
-export default LoginModal;
+export default SignupModal;

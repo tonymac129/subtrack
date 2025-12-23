@@ -10,19 +10,6 @@ import Modal from "@/components/Modal";
 import AddModal from "@/components/modals/AddModal";
 import WarningModal from "@/components/modals/WarningModal";
 
-// const subs: string[] = [
-//   "ChatGPT Plus",
-//   "GitHub Pro",
-//   "HBO Max",
-//   "YouTube Premium",
-//   "Google One",
-//   "Netflix",
-//   "Spotify Premium",
-//   "Disney+",
-//   "Amazon Prime",
-//   "Hulu",
-// ];
-
 const services: ServicesType = [
   {
     id: 0,

@@ -12,9 +12,15 @@ import Image from "next/image";
 function Nav() {
   const [userOpen, setUserOpen] = useState<boolean>(false);
   const [profileOpen, setProfileOpen] = useState<boolean>(false);
+  const [guestMode, setGuestMode] = useState(false);
   const [userData, setUserData] = useState<UserType>(() => {
-    if (typeof window !== "undefined" && localStorage.getItem("subtrack-user")) {
+    if (typeof window !== "undefined" && sessionStorage.getItem("subtrack-user")) {
+      return JSON.parse(sessionStorage.getItem("subtrack-user"));
+      //actual cloud account because server response stored in session storage
+    } else if (typeof window !== "undefined" && localStorage.getItem("subtrack-user")) {
+      setGuestMode(true);
       return JSON.parse(localStorage.getItem("subtrack-user"));
+      //guest mode because user data stored in local storage
     } else {
       return {
         username: "Guest",
@@ -37,9 +43,16 @@ function Nav() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("subtrack-user", JSON.stringify(userData));
+    if (guestMode) {
+      localStorage.setItem("subtrack-user", JSON.stringify(userData));
+    }
     //TODO: add database & guest mode conditional
   }, [userData]);
+
+  function handleLogout() {
+    sessionStorage.clear();
+    window.location.reload();
+  }
 
   return (
     <nav className="flex items-center justify-between px-50 py-1 border-b-2 border-gray-700">
@@ -52,7 +65,7 @@ function Nav() {
           className="flex text-gray-100 items-center gap-x-3 font-bold hover:bg-gray-900 rounded-full px-4 py-1.5 cursor-pointer duration-300"
           onClick={() => setUserOpen(!userOpen)}
         >
-          <CgProfile size={35} color="rgb(220,220,220)" /> {userData.username}
+          <CgProfile size={35} color="rgb(220,220,220)" /> {userData.display || userData.username}
         </div>
         <AnimatePresence>
           {userOpen && (
@@ -69,6 +82,9 @@ function Nav() {
               <a href="https://github.com/tonymac129/subtrack/issues" target="_blank" className="dropdown-item">
                 Feedback
               </a>
+              <div className="dropdown-item text-red-500!" onClick={handleLogout}>
+                Log out
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
