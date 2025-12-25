@@ -248,7 +248,7 @@ function Page() {
         <div className="flex-1 border-gray-700 border-2 rounded-lg h-full flex justify-between px-5 items-center">
           <Stat big={"$" + monthlyTotal} description="Monthly total" />
           <Stat big={"$" + Math.round(monthlyTotal * 1200) / 100} description="Yearly total" />
-          <Stat big={userSubs.length.toString()} description={`Total subscription${userSubs.length > 1 ? "s" : ""}`} />
+          <Stat big={userSubs?.length.toString()} description={`Total subscription${userSubs?.length > 1 ? "s" : ""}`} />
         </div>
         <div
           className="flex flex-col items-center border-2 border-gray-700 rounded-lg px-3 cursor-pointer text-gray-300 text-sm
