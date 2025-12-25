@@ -10,6 +10,7 @@ import Modal from "@/components/Modal";
 import AddModal from "@/components/modals/AddModal";
 import WarningModal from "@/components/modals/WarningModal";
 import { UserType } from "@/types/user";
+import Stat from "./Stat";
 
 const services: ServicesType = [
   {
@@ -145,6 +146,17 @@ function Page() {
     () => userSubs?.filter((subscription) => subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())),
     [search, userSubs]
   );
+  const monthlyTotal = useMemo(() => {
+    const total = userSubs?.reduce((acc, sub) => {
+      if (sub.duration === "month") {
+        acc += sub.price;
+      } else {
+        acc += sub.price / 12;
+      }
+      return acc;
+    }, 0);
+    return Math.round(total * 100) / 100;
+  }, [userSubs]);
 
   async function updateDBSubs() {
     const userData = JSON.parse(sessionStorage.getItem("subtrack-user"));
@@ -232,13 +244,20 @@ function Page() {
 
   return (
     <div className=" flex flex-col flex-1 gap-y-5 py-10 pl-10 overflow-auto h-[calc(100vh-57px)] pr-50">
-      <div
-        className="flex flex-col items-center border-2 border-gray-700 rounded-lg px-3 py-3 cursor-pointer text-gray-100
-         hover:bg-gray-900 duration-300 w-fit my-5"
-        onClick={() => setShowAddModal(true)}
-      >
-        <IoIosAdd size={70} color="white" />
-        Add a Subscription
+      <div className="flex gap-x-5 items-center">
+        <div className="flex-1 border-gray-700 border-2 rounded-lg h-full flex justify-between px-5 items-center">
+          <Stat big={"$" + monthlyTotal} description="Monthly total" />
+          <Stat big={"$" + Math.round(monthlyTotal * 1200) / 100} description="Yearly total" />
+          <Stat big={userSubs.length.toString()} description={`Total subscription${userSubs.length > 1 ? "s" : ""}`} />
+        </div>
+        <div
+          className="flex flex-col items-center border-2 border-gray-700 rounded-lg px-3 cursor-pointer text-gray-300 text-sm
+         hover:bg-gray-900 duration-300 w-fit my-5 h-full justify-center"
+          onClick={() => setShowAddModal(true)}
+        >
+          <IoIosAdd size={60} color="#d1d5dc" />
+          Add Subscription
+        </div>
       </div>
       <h2 className="text-white text-2xl font-bold">Your subscriptions</h2>
       <div className="relative flex items-center">
