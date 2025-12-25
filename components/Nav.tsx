@@ -9,10 +9,18 @@ import ProfileModal from "./modals/ProfileModal";
 import { UserType } from "@/types/user";
 import Image from "next/image";
 
+async function updateDBUser(user: UserType) {
+  const res = await fetch("/api/user", {
+    method: "POST",
+    headers: { "Content-Type": "application-json" },
+    body: JSON.stringify({ _id: user._id, display: user.display }),
+  });
+}
+
 function Nav() {
   const [userOpen, setUserOpen] = useState<boolean>(false);
   const [profileOpen, setProfileOpen] = useState<boolean>(false);
-  const [guestMode, setGuestMode] = useState(false);
+  const [guestMode, setGuestMode] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserType>(() => {
     if (typeof window !== "undefined" && sessionStorage.getItem("subtrack-user")) {
       return JSON.parse(sessionStorage.getItem("subtrack-user"));
@@ -45,6 +53,8 @@ function Nav() {
   useEffect(() => {
     if (guestMode) {
       localStorage.setItem("subtrack-user", JSON.stringify(userData));
+    } else {
+      updateDBUser(userData);
     }
     //TODO: add database & guest mode conditional
   }, [userData]);

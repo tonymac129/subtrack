@@ -37,6 +37,12 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
   );
 
   useEffect(() => {
+    if (importedData) {
+      setSelected(services.find((service) => service.id === importedData.serviceid).id);
+    }
+  }, []);
+
+  useEffect(() => {
     if (index === 3) {
       if (importedData) {
         const copy = [...userSubs];
@@ -109,7 +115,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
             transition={{ duration: 0.5, type: "spring" }}
             className="flex flex-col gap-y-5"
           >
-            <div className="text-gray-100 text-xl font-bold">Choose a plan for {services[selected].name}</div>
+            <div className="text-gray-100 text-xl font-bold">Choose a plan for {services[selected]?.name}</div>
             <label className="flex flex-col gap-y-1 text-gray-400">
               Select a plan
               <select

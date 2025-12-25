@@ -9,6 +9,7 @@ import SubscriptionItem from "./SubscriptionItem";
 import Modal from "@/components/Modal";
 import AddModal from "@/components/modals/AddModal";
 import WarningModal from "@/components/modals/WarningModal";
+import { UserType } from "@/types/user";
 
 const services: ServicesType = [
   {
@@ -107,22 +108,71 @@ const services: ServicesType = [
     ],
   },
 ];
+//TODO: probably move the services into a separate json file in public folder
+
+async function getDBSubs() {
+  const userData: UserType = JSON.parse(sessionStorage.getItem("subtrack-user"));
+  const res = await fetch(`/api/user/subscriptions/${userData._id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await res.json();
+  console.log(data);
+
+  return data;
+}
 
 function Page() {
   const [search, setSearch] = useState<string>("");
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showWarningModal, setShowWarningModal] = useState<boolean>(false);
-  const [userSubs, setUserSubs] = useState<SubscriptionType[]>(() => {
-    const stored = localStorage.getItem("subtrack-subs");
-    return stored ? JSON.parse(stored) : [];
+  const [guestMode, setGuestMode] = useState<boolean>(false);
+  const [userSubs, setUserSubs] = useState<SubscriptionType[] | null>(() => {
+    if (typeof window !== "undefined") {
+      if (sessionStorage.getItem("subtrack-user")) {
+        setGuestMode(false);
+        return null;
+      } else {
+        setGuestMode(true);
+        const stored = localStorage.getItem("subtrack-subs");
+        return stored ? JSON.parse(stored) : [];
+      }
+    }
   });
   const displayed = useMemo(
-    () => userSubs.filter((subscription) => subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())),
+    () => userSubs?.filter((subscription) => subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())),
     [search, userSubs]
   );
 
+  async function updateDBSubs() {
+    const userData = JSON.parse(sessionStorage.getItem("subtrack-user"));
+    //TODO: maybe add a userdata state and fetch id from there instead of fetching session storage again
+    const res = await fetch("/api/user/subscriptions", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ _id: userData._id, subs: userSubs }),
+    });
+    console.log(await res.json());
+  }
+
   useEffect(() => {
-    localStorage.setItem("subtrack-subs", JSON.stringify(userSubs));
+    if (!guestMode) {
+      getDBSubs().then(setUserSubs);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (guestMode) {
+      localStorage.setItem("subtrack-subs", JSON.stringify(userSubs));
+    } else {
+      if (userSubs) {
+        updateDBSubs();
+      }
+    }
   }, [userSubs]);
 
   function handleSort(method: string): void {
@@ -210,7 +260,7 @@ function Page() {
             />
           )}
         </div>
-        {userSubs.length > 0 && (
+        {userSubs?.length > 0 && (
           <div className="text-red-500 absolute right-0 cursor-pointer hover:underline" onClick={() => setShowWarningModal(true)}>
             Clear subscriptions
           </div>
@@ -242,7 +292,7 @@ function Page() {
         <hr className="h-0.5 bg-gray-700 border-none" />
       </div>
       <div className="flex flex-col gap-y-1">
-        {displayed.length > 0 ? (
+        {displayed?.length > 0 ? (
           displayed.map((sub, i) => {
             return (
               <SubscriptionItem key={i} subscription={sub} userSubs={userSubs} setUserSubs={setUserSubs} services={services} />
