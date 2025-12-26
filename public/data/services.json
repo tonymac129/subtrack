@@ -1,0 +1,698 @@
+[
+    {
+        "id": 0,
+        "name": "ChatGPT",
+        "plans": [
+            {
+                "name": "Plus",
+                "price": 20.0
+            },
+            {
+                "name": "Business",
+                "price": 25.0
+            },
+            {
+                "name": "Pro",
+                "price": 200.0
+            }
+        ]
+    },
+    {
+        "id": 1,
+        "name": "GitHub Pro",
+        "plans": [
+            {
+                "name": "Team",
+                "price": 4.0
+            },
+            {
+                "name": "Enterprise",
+                "price": 21.0
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "HBO Max",
+        "plans": [
+            {
+                "name": "Basic With Ads",
+                "price": 10.99
+            },
+            {
+                "name": "Standard",
+                "price": 18.49
+            },
+            {
+                "name": "Premium",
+                "price": 22.99
+            },
+            {
+                "name": "Bundles coming soon",
+                "price": 0.0
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "YouTube Premium",
+        "plans": [
+            {
+                "name": "Individual",
+                "price": 13.99
+            },
+            {
+                "name": "Family",
+                "price": 22.99
+            },
+            {
+                "name": "Student",
+                "price": 7.99
+            },
+            {
+                "name": "Premium Lite",
+                "price": 7.99
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Google One",
+        "plans": [
+            {
+                "name": "Basic",
+                "price": 1.99
+            },
+            {
+                "name": "Standard",
+                "price": 2.99
+            },
+            {
+                "name": "Premium",
+                "price": 9.99
+            },
+            {
+                "name": "Google AI Pro",
+                "price": 19.99
+            },
+            {
+                "name": "Google AI Ultra",
+                "price": 249.99
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Netflix",
+        "plans": [
+            {
+                "name": "Standard with Ads",
+                "price": 7.99
+            },
+            {
+                "name": "Standard",
+                "price": 17.99
+            },
+            {
+                "name": "Premium",
+                "price": 24.99
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Disney+",
+        "plans": [
+            {
+                "name": "Disney+",
+                "price": 11.99
+            },
+            {
+                "name": "Disney+ Premium",
+                "price": 18.99
+            },
+            {
+                "name": "Bundles coming soon",
+                "price": 0.0
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Amazon Prime",
+        "plans": [
+            {
+                "name": "Prime Monthly",
+                "price": 14.99
+            },
+            {
+                "name": "Prime for Young Adults",
+                "price": 7.49
+            },
+            {
+                "name": "Prime Access",
+                "price": 6.99
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Spotify Premium",
+        "plans": [
+            {
+                "name": "Individual",
+                "price": 11.99
+            },
+            {
+                "name": "Duo",
+                "price": 16.99
+            },
+            {
+                "name": "Family",
+                "price": 19.99
+            },
+            {
+                "name": "Student",
+                "price": 5.99
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Hulu",
+        "plans": [
+            {
+                "name": "Hulu",
+                "price": 11.99
+            },
+            {
+                "name": "Hulu Student",
+                "price": 1.99
+            },
+            {
+                "name": "Hulu Premium",
+                "price": 18.99
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Discord",
+        "plans": [
+            {
+                "name": "Nitro",
+                "price": 9.99
+            },
+            {
+                "name": "Nitro Basic",
+                "price": 2.99
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Crunchyroll",
+        "plans": [
+            {
+                "name": "Fan",
+                "price": 7.99
+            },
+            {
+                "name": "Mega Fan",
+                "price": 11.99
+            },
+            {
+                "name": "Ultimate Fan",
+                "price": 15.99
+            },
+            {
+                "name": "Fan + Manga",
+                "price": 11.99
+            },
+            {
+                "name": "Mega Fan + Manga",
+                "price": 15.49
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "name": "Microsoft 365",
+        "plans": [
+            {
+                "name": "Personal",
+                "price": 9.99
+            },
+            {
+                "name": "Family",
+                "price": 12.99
+            },
+            {
+                "name": "Premium",
+                "price": 19.99
+            },
+            {
+                "name": "Business Basic",
+                "price": 6.00
+            },
+            {
+                "name": "Business Standard",
+                "price": 12.50
+            },
+            {
+                "name": "Business Premium",
+                "price": 22.00
+            },
+            {
+                "name": "Enterprise F3",
+                "price": 8.00
+            },
+            {
+                "name": "Enterprise E3",
+                "price": 36.00
+            },
+            {
+                "name": "Enterprise E5",
+                "price": 57.00
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Apple Music",
+        "plans": [
+            {
+                "name": "Individual",
+                "price": 10.99
+            },
+            {
+                "name": "Student",
+                "price": 6.99
+            },
+            {
+                "name": "Family",
+                "price": 16.99
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "name": "Dropbox",
+        "plans": [
+            {
+                "name": "Plus",
+                "price": 11.99
+            },
+            {
+                "name": "Professional",
+                "price": 19.99
+            },
+            {
+                "name": "Standard",
+                "price": 18.00
+            },
+            {
+                "name": "Advanced",
+                "price": 30.00
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Adobe Creative Cloud",
+        "plans": [
+            {
+                "name": "Standard",
+                "price": 54.99
+            },
+            {
+                "name": "Pro",
+                "price": 69.99
+            }
+        ]
+    },
+    {
+        "id": 16,
+        "name": "Super Duolingo",
+        "plans": [
+            {
+                "name": "Super",
+                "price": 12.99
+            },
+            {
+                "name": "Family",
+                "price": 9.99
+            },
+            {
+                "name": "Max",
+                "price": 29.99
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "name": "PlayStation Plus",
+        "plans": [
+            {
+                "name": "Essential",
+                "price": 9.99
+            },
+            {
+                "name": "Extra",
+                "price": 14.99
+            },
+            {
+                "name": "Max",
+                "price": 17.99
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "name": "Xbox Game Pass",
+        "plans": [
+            {
+                "name": "Essential",
+                "price": 9.99
+            },
+            {
+                "name": "Premium",
+                "price": 14.99
+            },
+            {
+                "name": "Ultimate",
+                "price": 29.99
+            },
+            {
+                "name": "PC Only",
+                "price": 16.49
+            }
+        ]
+    },
+    {
+        "id": 19,
+        "name": "Apple TV",
+        "plans": [
+            {
+                "name": "Basic",
+                "price": 12.99
+            },
+            {
+                "name": "Student",
+                "price": 5.99
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Paramount+",
+        "plans": [
+            {
+                "name": "Essential",
+                "price": 7.99
+            },
+            {
+                "name": "Premium",
+                "price": 12.99
+            }
+        ]
+    },
+    {
+        "id": 21,
+        "name": "Peacock",
+        "plans": [
+            {
+                "name": "Select",
+                "price": 7.99
+            },
+            {
+                "name": "Premium",
+                "price": 10.99
+            },
+            {
+                "name": "Premium Plus",
+                "price": 16.99
+            }
+        ]
+    },
+    {
+        "id": 22,
+        "name": "ESPN+",
+        "plans": [
+            {
+                "name": "Select",
+                "price": 12.99
+            },
+            {
+                "name": "Unlimited",
+                "price": 29.99
+            }
+        ]
+    },
+    {
+        "id": 23,
+        "name": "Notion",
+        "plans": [
+            {
+                "name": "Plus",
+                "price": 12.00
+            },
+            {
+                "name": "Business",
+                "price": 24.00
+            }
+        ]
+    },
+    {
+        "id": 24,
+        "name": "Google Workspace",
+        "plans": [
+            {
+                "name": "Starter",
+                "price": 7.00
+            },
+            {
+                "name": "Standard",
+                "price": 14.00
+            },
+            {
+                "name": "Plus",
+                "price": 22.00
+            }
+        ]
+    },
+    {
+        "id": 25,
+        "name": "Zoom",
+        "plans": [
+            {
+                "name": "Pro",
+                "price": 16.99
+            },
+            {
+                "name": "Business",
+                "price": 21.99
+            }
+        ]
+    },
+    {
+        "id": 26,
+        "name": "Verizon Wireless",
+        "plans": [
+            {
+                "name": "Welcome",
+                "price": 75.00
+            },
+            {
+                "name": "Plus",
+                "price": 90.00
+            },
+            {
+                "name": "Ultimate",
+                "price": 100.00
+            }
+        ]
+    },
+    {
+        "id": 27,
+        "name": "AT&T Wireless",
+        "plans": [
+            {
+                "name": "Starter",
+                "price": 35.99
+            },
+            {
+                "name": "Extra",
+                "price": 40.99
+            },
+            {
+                "name": "Premium",
+                "price": 50.99
+            },
+            {
+                "name": "55+",
+                "price": 55.00
+            },
+            {
+                "name": "Value Plus",
+                "price": 30.99
+            },
+            {
+                "name": "4GB",
+                "price": 40.00
+            }
+        ]
+    },
+    {
+        "id": 28,
+        "name": "T-Mobile Unlimited",
+        "plans": [
+            {
+                "name": "Essentials",
+                "price": 65.00
+            },
+            {
+                "name": "Experience More",
+                "price": 90.00
+            },
+            {
+                "name": "Experience Beyond",
+                "price": 105.00
+            }
+        ]
+    },
+    {
+        "id": 29,
+        "name": "Planet Fitness",
+        "plans": [
+            {
+                "name": "Classic",
+                "price": 15.00
+            },
+            {
+                "name": "Black Card",
+                "price": 24.99
+            }
+        ]
+    },
+    {
+        "id": 30,
+        "name": "Costco Membership",
+        "plans": [
+            {
+                "name": "Gold Star",
+                "price": 5.42
+            },
+            {
+                "name": "Executive Membership",
+                "price": 10.83
+            }
+        ]
+    },
+    {
+        "id": 31,
+        "name": "Canva",
+        "plans": [
+            {
+                "name": "Pro",
+                "price": 15.00
+            },
+            {
+                "name": "Business",
+                "price": 20.00
+            }
+        ]
+    },
+    {
+        "id": 32,
+        "name": "Reddit",
+        "plans": [
+            {
+                "name": "Premium",
+                "price": 5.99
+            }
+        ]
+    },
+    {
+        "id": 33,
+        "name": "X (Twitter)",
+        "plans": [
+            {
+                "name": "Basic",
+                "price": 3.00
+            },
+            {
+                "name": "Premium",
+                "price": 8.00
+            },
+            {
+                "name": "Premium+",
+                "price": 40.00
+            }
+        ]
+    },
+    {
+        "id": 34,
+        "name": "Vercel",
+        "plans": [
+            {
+                "name": "Pro",
+                "price": 20.00
+            }
+        ]
+    },
+    {
+        "id": 35,
+        "name": "Cloudflare",
+        "plans": [
+            {
+                "name": "Pro",
+                "price": 25.00
+            },
+            {
+                "name": "Business",
+                "price": 250.00
+            }
+        ]
+    },
+    {
+        "id": 36,
+        "name": "New York Times",
+        "plans": [
+            {
+                "name": "All Access",
+                "price": 26.79
+            },
+            {
+                "name": "All Access Family",
+                "price": 32.14
+            }
+        ]
+    },
+    {
+        "id": 37,
+        "name": "iCloud+",
+        "plans": [
+            {
+                "name": "50 GB",
+                "price": 0.99
+            },
+            {
+                "name": "200 GB",
+                "price": 2.99
+            },
+            {
+                "name": "2 TB",
+                "price": 9.99
+            },
+            {
+                "name": "6 TB",
+                "price": 29.99
+            },
+            {
+                "name": "12 TB",
+                "price": 59.99
+            }
+        ]
+    }
+]

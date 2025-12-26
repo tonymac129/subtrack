@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SubscriptionType, ServicesType } from "@/types/subscriptions";
 import SubscriptionCard from "@/app/subscriptions/SubscriptionCard";
+import { CgClose } from "react-icons/cg";
 
 type AddModalProps = {
   close: () => void;
@@ -57,7 +58,9 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
 
   return (
     <div className="flex flex-col gap-y-5 relative h-full">
-      <h2 className="text-white text-2xl font-bold">Add Subscription</h2>
+      <h2 className="text-white text-2xl font-bold">
+        {index === 0 ? "1. Choose a service" : index === 1 ? "2. Select a plan" : "3. Customize subscription"}
+      </h2>
       <AnimatePresence mode="popLayout" initial={false}>
         {index === 0 && (
           <motion.div
@@ -66,34 +69,47 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: !dir ? "100%" : "-100%", opacity: 0 }}
             transition={{ duration: 0.5, type: "spring" }}
-            className="flex flex-col gap-y-5"
+            className="flex flex-col gap-y-5 overflow-auto"
           >
-            <input
-              type="text"
-              placeholder="Search services"
-              className="modal-input w-100"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <div className="text-white text-lg flex flex-wrap gap-5">
+            <div className="w-100 relative">
+              <input
+                type="text"
+                placeholder="Search services"
+                className="modal-input w-100"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              {search.length > 0 && (
+                <CgClose
+                  size={30}
+                  color="white"
+                  className="absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer rounded-md hover:bg-gray-900 p-1 duration-300"
+                  title="Clear search"
+                  onClick={() => setSearch("")}
+                />
+              )}
+            </div>
+            <div className="text-white text-lg flex flex-wrap items-start gap-3 overflow-auto ">
               {displayed.length > 0 ? (
-                displayed.map((sub, i) => {
-                  return (
-                    <div
-                      key={i}
-                      onClick={() => {
-                        setSelected(selected === i ? null : i);
-                        setNewSubscription({
-                          ...newSubscription,
-                          service: selected !== i ? sub.name : "",
-                          serviceid: selected !== i ? sub.id : 0,
-                        });
-                      }}
-                    >
-                      <SubscriptionCard id={sub.id} selected={i === selected} services={services} />
-                    </div>
-                  );
-                })
+                displayed
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((sub, i) => {
+                    return (
+                      <div
+                        key={i}
+                        onClick={() => {
+                          setSelected(selected === i ? null : i);
+                          setNewSubscription({
+                            ...newSubscription,
+                            service: selected !== i ? sub.name : "",
+                            serviceid: selected !== i ? sub.id : 0,
+                          });
+                        }}
+                      >
+                        <SubscriptionCard id={sub.id} selected={i === selected} services={services} />
+                      </div>
+                    );
+                  })
               ) : (
                 <div className="text-gray-100 w-100">
                   No subscriptions found! Add a subscription above or submit an issue{" "}
