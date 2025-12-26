@@ -151,9 +151,9 @@ function Page() {
   const monthlyTotal = useMemo(() => {
     const total = userSubs?.reduce((acc, sub) => {
       if (sub.duration === "month") {
-        acc += sub.price;
+        acc += Number(sub.price);
       } else {
-        acc += sub.price / 12;
+        acc += Number(sub.price) / 12;
       }
       return acc;
     }, 0);
@@ -208,7 +208,7 @@ function Page() {
         break;
       case "amount":
         newUserSubs.sort((a, b) => {
-          const first = a.price - b.price;
+          const first = Number(a.price) - Number(b.price);
           if (first !== 0) return first;
           return a.id.localeCompare(b.id);
         });

@@ -22,6 +22,7 @@ function ProfileModal({ userData, setUserData, close }: ProfileModalProps) {
     <form onSubmit={handleSave}>
       <h2 className="text-white text-2xl text-center font-bold">Edit Profile</h2>
       <div className="flex flex-col gap-y-5 py-5">
+        <label className="flex flex-col gap-y-1 text-gray-400">Username: {userData.username}</label>
         <label className="flex flex-col gap-y-1 text-gray-400">
           Display name
           <input

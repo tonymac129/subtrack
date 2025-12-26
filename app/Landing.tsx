@@ -115,18 +115,6 @@ function Landing({ setIsLoggedIn }: LandingProps) {
             TypeScript, MongoDB, and Tailwind.
           </p>
         </div>
-        <div className="space-y-4">
-          <h2 className="text-3xl font-bold text-white">Local setup</h2>
-          <p className="text-gray-300 leading-6">
-            If for some reason you want to host Subtrack on your local machine, simply clone the GitHub{" "}
-            <a href="https://github.com/tonymac129/subtrack" target="_blank" className="text-blue-500 hover:underline">
-              repo
-            </a>
-            , open it with your favorite code editor, and run the command{" "}
-            <code className="bg-gray-900 p-1 px-2 rounded-md text-nowrap">npm run dev</code> to open and host it on
-            localhost:3000.
-          </p>
-        </div>
       </div>
       <footer className="py-15 flex flex-col gap-y-5 text-center text-sm text-gray-400 border-t border-gray-700">
         <div>

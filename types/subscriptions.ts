@@ -3,7 +3,7 @@ type Plan = {
   price: number;
 };
 
-type Service = {
+export type Service = {
   name: string;
   id: number;
   plans: Plan[];
@@ -12,13 +12,13 @@ type Service = {
 export type ServicesType = Service[];
 
 export type SubscriptionType = {
-  id:string;
+  id: string;
   serviceid: number;
   service: string;
   plan: string;
-  price: number;
+  price: number | string;
   name: string;
   description: string;
-  duration:string;
+  duration: string;
   timeCreated: Date;
 };

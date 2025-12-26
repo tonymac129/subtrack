@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { SubscriptionType, ServicesType } from "@/types/subscriptions";
+import { SubscriptionType, ServicesType, Service } from "@/types/subscriptions";
 import SubscriptionCard from "@/app/subscriptions/SubscriptionCard";
 import { CgClose } from "react-icons/cg";
+import { BiAddToQueue } from "react-icons/bi";
 
 type AddModalProps = {
   close: () => void;
@@ -12,6 +13,12 @@ type AddModalProps = {
   userSubs: SubscriptionType[];
   setUserSubs: React.Dispatch<React.SetStateAction<SubscriptionType[]>>;
   importedData?: SubscriptionType;
+};
+
+const customSub = {
+  name: "Custom",
+  id: 99,
+  plans: [],
 };
 
 function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddModalProps) {
@@ -23,6 +30,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
     [services, search]
   );
   const [selected, setSelected] = useState<null | number>(null);
+  const [selectedSub, setSelectedSub] = useState<Service | null>(null);
   const [newSubscription, setNewSubscription] = useState<SubscriptionType>(
     importedData || {
       id: crypto.randomUUID(),
@@ -39,9 +47,10 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
 
   useEffect(() => {
     if (importedData) {
-      setSelected(services.find((service) => service.id === importedData.serviceid).id);
+      setSelected(services.find((service) => service.id === importedData.serviceid)?.id || 99);
+      setSelectedSub(services.find((service) => service.id === importedData.serviceid) || customSub);
     }
-  }, []);
+  }, [importedData, services]);
 
   useEffect(() => {
     if (index === 3) {
@@ -90,6 +99,26 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
               )}
             </div>
             <div className="text-white text-lg flex flex-wrap items-start gap-3 overflow-auto ">
+              <div>
+                <div
+                  className={`border-2 h-30 rounded-lg border-${
+                    selected === 99 ? "blue" : "gray"
+                  }-700 cursor-pointer leading-5 text-center
+                    p-2 text-gray-100 text-sm hover:bg-gray-900 duration-300 flex flex-col gap-y-1 items-center w-25`}
+                  onClick={() => {
+                    setSelected(selected === 99 ? null : 99);
+                    setNewSubscription({
+                      ...newSubscription,
+                      service: selected === 99 ? null : "Custom",
+                      serviceid: 99,
+                    });
+                    setSelectedSub(customSub);
+                  }}
+                >
+                  <BiAddToQueue size={45} />
+                  Custom Service
+                </div>
+              </div>
               {displayed.length > 0 ? (
                 displayed
                   .sort((a, b) => a.name.localeCompare(b.name))
@@ -104,6 +133,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                             service: selected !== i ? sub.name : "",
                             serviceid: selected !== i ? sub.id : 0,
                           });
+                          setSelectedSub(services.find((service) => service.id === sub.id));
                         }}
                       >
                         <SubscriptionCard id={sub.id} selected={i === selected} services={services} />
@@ -111,8 +141,8 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                     );
                   })
               ) : (
-                <div className="text-gray-100 w-100">
-                  No subscriptions found! Add a subscription above or submit an issue{" "}
+                <div className="text-gray-100 w-120">
+                  No subscriptions found! Create a custom service yourself or submit an issue{" "}
                   <a href="https://github.com/tonymac129/subtrack/issues" target="_blank" className="underline">
                     here
                   </a>{" "}
@@ -131,25 +161,27 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
             transition={{ duration: 0.5, type: "spring" }}
             className="flex flex-col gap-y-5"
           >
-            <div className="text-gray-100 text-xl font-bold">Choose a plan for {services[selected]?.name}</div>
+            <div className="text-gray-100 text-xl font-bold">Choose a plan for {selectedSub?.name}</div>
             <label className="flex flex-col gap-y-1 text-gray-400">
               Select a plan
               <select
                 name="Available plans"
                 className="modal-select"
-                value={services[newSubscription.serviceid].plans.indexOf(
-                  services[newSubscription.serviceid].plans.find((plan) => plan.name === newSubscription.plan)
-                )}
+                value={
+                  newSubscription.plan === "Custom"
+                    ? selectedSub?.plans.length
+                    : selectedSub?.plans.indexOf(selectedSub.plans.find((plan) => plan.name === newSubscription.plan))
+                }
                 onChange={(e) => {
                   setNewSubscription({
                     ...newSubscription,
-                    plan: services[newSubscription.serviceid].plans[Number(e.target.value)].name,
-                    price: services[newSubscription.serviceid].plans[Number(e.target.value)].price,
+                    plan: selectedSub.plans[Number(e.target.value)]?.name || "Custom",
+                    price: selectedSub.plans[Number(e.target.value)]?.price || 0,
                     duration: "month",
                   });
                 }}
               >
-                {services[newSubscription.serviceid].plans.map((plan, i) => {
+                {selectedSub?.plans.map((plan, i) => {
                   return (
                     <option key={i} value={i} className="bg-gray-900">
                       {plan.name}
@@ -168,12 +200,19 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
               </a>
             </label>
             <label className="flex flex-col gap-y-1 text-gray-400">
-              Price
+              Price (USD)
               <input
                 type="text"
                 placeholder="Amount"
                 value={newSubscription.price}
-                onChange={(e) => setNewSubscription({ ...newSubscription, price: Number(e.target.value) })}
+                onChange={(e) => {
+                  if (isNaN(Number(e.target.value))) {
+                    e.target.focus();
+                    alert("Please make sure the price is a positive numerical value!");
+                  } else {
+                    setNewSubscription({ ...newSubscription, price: e.target.value });
+                  }
+                }}
                 className="modal-input w-100"
               />
             </label>
@@ -185,7 +224,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                 onChange={(e) =>
                   setNewSubscription({
                     ...newSubscription,
-                    price: e.target.value === "month" ? newSubscription.price / 12 : newSubscription.price * 12,
+                    price: e.target.value === "month" ? Number(newSubscription.price) / 12 : Number(newSubscription.price) * 12,
                     duration: e.target.value,
                   })
                 }
@@ -209,7 +248,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
             transition={{ duration: 0.5, type: "spring" }}
             className="flex flex-col gap-y-5"
           >
-            <div className="text-gray-100 text-xl font-bold">Customize {services[selected].name} subscription</div>
+            <div className="text-gray-100 text-xl font-bold">Customize {selectedSub.name} subscription</div>
             <label className="flex flex-col gap-y-1 text-gray-400">
               Subscription name
               <input
@@ -242,8 +281,8 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
               if (index === 0) {
                 setNewSubscription({
                   ...newSubscription,
-                  plan: services[newSubscription.serviceid].plans[0].name,
-                  price: services[newSubscription.serviceid].plans[0].price,
+                  plan: selectedSub.plans[0]?.name || "Custom",
+                  price: selectedSub.plans[0]?.price || 0,
                 });
               }
               if (index === 1 && !importedData) {
