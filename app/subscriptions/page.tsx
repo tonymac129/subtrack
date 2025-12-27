@@ -234,6 +234,14 @@ function Page() {
           return a.id.localeCompare(b.id);
         });
         break;
+      case "renews":
+        newUserSubs.sort((a, b) => {
+          const first = new Date(a.renews).getTime() - new Date(b.renews).getTime();
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
+      //TODO: DRY tie breaker logic
     }
     if (newUserSubs[0] === userSubs[0]) newUserSubs.reverse();
     setUserSubs(newUserSubs);
@@ -248,8 +256,16 @@ function Page() {
     <div className=" flex flex-col flex-1 gap-y-5 py-10 pl-10 overflow-auto h-[calc(100vh-57px)] pr-50">
       <div className="flex gap-x-5 items-center">
         <div className="flex-1 border-gray-700 border-2 rounded-lg h-full flex justify-between px-5 items-center">
-          <Stat big={"$" + monthlyTotal} description="Monthly total" />
-          <Stat big={"$" + Math.round(monthlyTotal * 1200) / 100} description="Yearly total" />
+          <Stat
+            big={"$" + monthlyTotal}
+            description="Monthly total"
+            info="This is just a close estimate and does not include free trials, promotions, or discounts"
+          />
+          <Stat
+            big={"$" + Math.round(monthlyTotal * 1200) / 100}
+            description="Yearly total"
+            info="This is just a close estimate and does not include free trials, promotions, or discounts"
+          />
           <Stat big={userSubs?.length.toString()} description={`Total subscription${userSubs?.length > 1 ? "s" : ""}`} />
         </div>
         <div
@@ -307,6 +323,9 @@ function Page() {
           <div className="flex-1 cursor-pointer" onClick={() => handleSort("service")}>
             {/*TODO: derive these headers dynamically from array */}
             Service
+          </div>
+          <div className="flex-1 cursor-pointer" onClick={() => handleSort("renews")}>
+            Renews
           </div>
           <div className="w-3.75"></div>
         </div>

@@ -6,6 +6,21 @@ import { SubscriptionType, ServicesType, Service } from "@/types/subscriptions";
 import SubscriptionCard from "@/app/subscriptions/SubscriptionCard";
 import { CgClose } from "react-icons/cg";
 import { BiAddToQueue } from "react-icons/bi";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { subDays } from "date-fns";
+
+type TExcludeDateIntervals = Array<{
+  start: Date;
+  end: Date;
+}>;
+
+const excludeDateIntervals: TExcludeDateIntervals = [
+  {
+    start: subDays(new Date(), 99999),
+    end: subDays(new Date(), 3),
+  },
+];
 
 type AddModalProps = {
   close: () => void;
@@ -42,6 +57,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
       description: "",
       duration: "month",
       timeCreated: new Date(),
+      renews: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     }
   );
 
@@ -217,6 +233,16 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
               />
             </label>
             <label className="flex flex-col gap-y-1 text-gray-400">
+              Renewal date
+              <DatePicker
+                selected={newSubscription.renews}
+                onChange={(date: Date) => setNewSubscription({ ...newSubscription, renews: date })}
+                className="cursor-pointer modal-input w-100"
+                excludeDateIntervals={excludeDateIntervals}
+                popperPlacement="bottom-start"
+              />
+            </label>
+            <label className="flex flex-col gap-y-1 text-gray-400">
               How often
               <select
                 className="modal-select"
@@ -324,4 +350,4 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
 
 export default AddModal;
 
-//help this modal component is doing way too much but im too scared to refactor 🥀
+//help this modal component is doing way too much but im too scared (or lazy) to refactor 🥀

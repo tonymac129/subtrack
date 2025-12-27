@@ -21,4 +21,5 @@ export type SubscriptionType = {
   description: string;
   duration: string;
   timeCreated: Date;
+  renews: Date;
 };

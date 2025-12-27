@@ -40,11 +40,21 @@ function SubscriptionItem({ subscription, userSubs, setUserSubs, services }: Sub
   return (
     <div className="flex text-gray-100 hover:bg-gray-900 duration-300 w-[calc(100%+32px)] rounded-lg py-3 -left-4 px-4 items-center relative">
       <span className="flex-3">{subscription.name}</span>
-      <span className="flex-1">{subscription.description}</span>
-      <span className="flex-1"> {subscription.price}</span>
-      <span className="flex-1"> {subscription.duration === "month" ? "Monthly" : "Annually"}</span>
-      <span className="flex-1"> {new Date(subscription.timeCreated).toLocaleDateString()}</span>
-      <span className="flex-1">{subscription.service}</span>
+      <span className="flex-1 text-sm">{subscription.description}</span>
+      <span className="flex-1 text-sm"> {subscription.price}</span>
+      <span className="flex-1 text-sm"> {subscription.duration === "month" ? "Monthly" : "Annually"}</span>
+      <span className="flex-1 text-sm"> {new Date(subscription.timeCreated).toLocaleDateString()}</span>
+      <span className="flex-1 text-sm">{subscription.service}</span>
+      <span
+        className={`flex-1 text-sm ${
+          new Date().toLocaleDateString() === new Date(subscription.renews).toLocaleDateString() ? "text-red-500" : ""
+        }`}
+      >
+        <div className="text-sm">{new Date(subscription.renews).toLocaleDateString()}</div>
+        <div className="text-xs">
+          {new Date().toLocaleDateString() === new Date(subscription.renews).toLocaleDateString() ? "Renews today" : ""}
+        </div>
+      </span>
       <div ref={optionMenuRef}>
         <SlOptionsVertical size={15} className="cursor-pointer" onClick={() => setOpen(!open)} />
         {open && (
