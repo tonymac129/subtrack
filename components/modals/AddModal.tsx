@@ -18,7 +18,7 @@ type TExcludeDateIntervals = Array<{
 const excludeDateIntervals: TExcludeDateIntervals = [
   {
     start: subDays(new Date(), 99999),
-    end: subDays(new Date(), 3),
+    end: subDays(new Date(), 1),
   },
 ];
 
@@ -34,18 +34,19 @@ const customSub = {
   name: "Custom",
   id: 99,
   plans: [],
+  category: "Other",
+  img: "",
 };
+
+const categories = ["TV", "Media", "Software", "Dev", "Cloud", "Internet", "Gaming", "Retail", "Other"];
 
 function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddModalProps) {
   const [search, setSearch] = useState("");
   const [index, setIndex] = useState(importedData ? 1 : 0);
   const [dir, setDir] = useState(true);
-  const displayed = useMemo(
-    () => services.filter((subscription) => subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())),
-    [services, search]
-  );
   const [selected, setSelected] = useState<null | number>(null);
   const [selectedSub, setSelectedSub] = useState<Service | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [newSubscription, setNewSubscription] = useState<SubscriptionType>(
     importedData || {
       id: crypto.randomUUID(),
@@ -59,6 +60,15 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
       timeCreated: new Date(),
       renews: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     }
+  );
+  const displayed = useMemo(
+    () =>
+      services.filter(
+        (subscription) =>
+          subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()) &&
+          (selectedCategory === null || subscription.category === categories[selectedCategory])
+      ),
+    [services, search, selectedCategory]
   );
 
   useEffect(() => {
@@ -109,10 +119,28 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                   size={30}
                   color="white"
                   className="absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer rounded-md hover:bg-gray-900 p-1 duration-300"
-                  title="Clear search"
-                  onClick={() => setSearch("")}
+                  title="Clear search and filter"
+                  onClick={() => {
+                    setSearch("");
+                    setSelectedCategory(null);
+                  }}
                 />
               )}
+            </div>
+            <div className="flex gap-x-2">
+              {categories.map((category, i) => {
+                return (
+                  <div
+                    key={i}
+                    className={`rounded-md border-2 border-gray-700 text-sm py-1 px-2 text-gray-100 cursor-pointer hover:bg-gray-900 duration-300 ${
+                      selectedCategory === i ? "border-blue-600!" : ""
+                    }`}
+                    onClick={() => setSelectedCategory(selectedCategory === i ? null : i)}
+                  >
+                    {category}
+                  </div>
+                );
+              })}
             </div>
             <div className="text-white text-lg flex flex-wrap items-start gap-3 overflow-auto ">
               <div>
@@ -148,11 +176,12 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                             ...newSubscription,
                             service: selected !== i ? sub.name : "",
                             serviceid: selected !== i ? sub.id : 0,
+                            category: selected !== i ? sub.category : "",
                           });
-                          setSelectedSub(services.find((service) => service.id === sub.id));
+                          setSelectedSub(selected === i ? null : services.find((service) => service.id === sub.id));
                         }}
                       >
-                        <SubscriptionCard id={sub.id} selected={i === selected} services={services} />
+                        <SubscriptionCard id={sub.id} selected={sub.id === selectedSub?.id} services={services} />
                       </div>
                     );
                   })
@@ -289,7 +318,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
               Subscription description
               <input
                 type="text"
-                placeholder="Description"
+                placeholder="Notes"
                 className="modal-input w-100"
                 value={newSubscription.description}
                 onChange={(e) => setNewSubscription({ ...newSubscription, description: e.target.value })}

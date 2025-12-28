@@ -10,6 +10,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const existingUser = await User.findById(id);
     if (!existingUser) return NextResponse.json({ message: "Error: failed to retrieve user data" }, { status: 404 });
     const yesterday = new Date().setDate(new Date().getDate() - 1);
+    //TODO: fix this currently yesterday is storing exactly 24 hours before current time, should be at exactly the start of today
     const updatedSubscriptions = existingUser.subscriptions.map((sub: SubscriptionType) => {
       const nextRenewal = new Date(sub.renews);
       while (nextRenewal < new Date(yesterday)) {

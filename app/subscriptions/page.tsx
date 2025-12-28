@@ -11,107 +11,11 @@ import AddModal from "@/components/modals/AddModal";
 import WarningModal from "@/components/modals/WarningModal";
 import { UserType } from "@/types/user";
 import Stat from "./Stat";
-
-// const services: ServicesType = [
-//   {
-//     id: 0,
-//     name: "ChatGPT",
-//     plans: [
-//       { name: "Plus", price: 20.0 },
-//       { name: "Business", price: 25.0 },
-//       { name: "Pro", price: 200.0 },
-//     ],
-//   },
-//   {
-//     id: 1,
-//     name: "GitHub Pro",
-//     plans: [
-//       { name: "Team", price: 4.0 },
-//       { name: "Enterprise", price: 21.0 },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     name: "HBO Max",
-//     plans: [
-//       { name: "Basic With Ads", price: 10.99 },
-//       { name: "Standard", price: 18.49 },
-//       { name: "Premium", price: 22.99 },
-//       { name: "Bundles coming soon", price: 0.0 },
-//       //TODO: add bundle option
-//     ],
-//   },
-//   {
-//     id: 3,
-//     name: "YouTube Premium",
-//     plans: [
-//       { name: "Individual", price: 13.99 },
-//       { name: "Family", price: 22.99 },
-//       { name: "Student", price: 7.99 },
-//       { name: "Premium Lite", price: 7.99 },
-//     ],
-//   },
-//   {
-//     id: 4,
-//     name: "Google One",
-//     plans: [
-//       { name: "Basic", price: 1.99 },
-//       { name: "Standard", price: 2.99 },
-//       { name: "Premium", price: 9.99 },
-//       { name: "Google AI Pro", price: 19.99 },
-//       { name: "Google AI Ultra", price: 249.99 },
-//     ],
-//   },
-//   {
-//     id: 5,
-//     name: "Netflix",
-//     plans: [
-//       { name: "Standard with Ads", price: 7.99 },
-//       { name: "Standard", price: 17.99 },
-//       { name: "Premium", price: 24.99 },
-//     ],
-//   },
-//   {
-//     id: 6,
-//     name: "Disney+",
-//     plans: [
-//       { name: "Disney+", price: 11.99 },
-//       { name: "Disney+ Premium", price: 18.99 },
-//       { name: "Bundles coming soon", price: 0.0 },
-//     ],
-//   },
-//   {
-//     id: 7,
-//     name: "Amazon Prime",
-//     plans: [
-//       { name: "Prime Monthly", price: 14.99 },
-//       { name: "Prime for Young Adults", price: 7.49 },
-//       { name: "Prime Access", price: 6.99 },
-//     ],
-//   },
-//   {
-//     id: 8,
-//     name: "Spotify Premium",
-//     plans: [
-//       { name: "Individual", price: 11.99 },
-//       { name: "Duo", price: 16.99 },
-//       { name: "Family", price: 19.99 },
-//       { name: "Student", price: 5.99 },
-//     ],
-//   },
-//   {
-//     id: 9,
-//     name: "Hulu",
-//     plans: [
-//       { name: "Hulu", price: 11.99 },
-//       { name: "Hulu Student", price: 1.99 },
-//       { name: "Hulu Premium", price: 18.99 },
-//     ],
-//   },
-// ];
-//TODO: probably move the services into a separate json file in public folder
+import { FiFilter } from "react-icons/fi";
 
 const services: ServicesType = await fetch("/data/services.json").then((res) => res.json());
+
+const categories = ["TV", "Media", "Software", "Dev", "Cloud", "Internet", "Gaming", "Retail", "Other"];
 
 async function getDBSubs() {
   const userData: UserType = JSON.parse(sessionStorage.getItem("subtrack-user"));
@@ -132,6 +36,7 @@ function Page() {
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showWarningModal, setShowWarningModal] = useState<boolean>(false);
   const [guestMode, setGuestMode] = useState<boolean>(false);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [userSubs, setUserSubs] = useState<SubscriptionType[] | null>(() => {
     if (typeof window !== "undefined") {
       if (sessionStorage.getItem("subtrack-user")) {
@@ -145,8 +50,13 @@ function Page() {
     }
   });
   const displayed = useMemo(
-    () => userSubs?.filter((subscription) => subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())),
-    [search, userSubs]
+    () =>
+      userSubs?.filter(
+        (subscription) =>
+          subscription.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()) &&
+          (selectedFilter === null || subscription.category === selectedFilter)
+      ),
+    [search, userSubs, selectedFilter]
   );
   const monthlyTotal = useMemo(() => {
     const total = userSubs?.reduce((acc, sub) => {
@@ -163,14 +73,13 @@ function Page() {
   async function updateDBSubs() {
     const userData = JSON.parse(sessionStorage.getItem("subtrack-user"));
     //TODO: maybe add a userdata state and fetch id from there instead of fetching session storage again
-    const res = await fetch("/api/user/subscriptions", {
+    await fetch("/api/user/subscriptions", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ _id: userData._id, subs: userSubs }),
     });
-    console.log(await res.json());
   }
 
   useEffect(() => {
@@ -178,6 +87,10 @@ function Page() {
       getDBSubs().then(setUserSubs);
     }
   }, []);
+
+  useEffect(() => {
+    console.log(selectedFilter);
+  }, [selectedFilter]);
 
   useEffect(() => {
     if (guestMode) {
@@ -241,6 +154,13 @@ function Page() {
           return a.id.localeCompare(b.id);
         });
         break;
+      case "tag":
+        newUserSubs.sort((a, b) => {
+          const first = a.category?.localeCompare(b.category);
+          if (first !== 0) return first;
+          return a.id.localeCompare(b.id);
+        });
+        break;
       //TODO: DRY tie breaker logic
     }
     if (newUserSubs[0] === userSubs[0]) newUserSubs.reverse();
@@ -297,6 +217,22 @@ function Page() {
             />
           )}
         </div>
+        <div className="flex gap-x-2 items-center ml-5">
+          <FiFilter size={25} className="text-gray-300" title="Filter" />
+          <select
+            className="modal-select w-30! bg-gray-950"
+            onChange={(e) => setSelectedFilter(e.target.value === "0" ? null : e.target.value)}
+          >
+            <option value="0">All</option>
+            {categories.map((category, i) => {
+              return (
+                <option key={i} value={category}>
+                  {category}
+                </option>
+              );
+            })}
+          </select>
+        </div>
         {userSubs?.length > 0 && (
           <div className="text-red-500 absolute right-0 cursor-pointer hover:underline" onClick={() => setShowWarningModal(true)}>
             Clear subscriptions
@@ -305,11 +241,14 @@ function Page() {
       </div>
       <div>
         <div className="flex text-gray-400 pb-2 text-sm w-full">
-          <div className="flex-3 cursor-pointer" onClick={() => handleSort("name")}>
+          <div className="flex-[2.5] cursor-pointer" onClick={() => handleSort("name")}>
             Subscription name
           </div>
           <div className="flex-1 cursor-pointer" onClick={() => handleSort("description")}>
             Description
+          </div>
+          <div className="flex-1 cursor-pointer" onClick={() => handleSort("tag")}>
+            Tag
           </div>
           <div className="flex-1 cursor-pointer" onClick={() => handleSort("amount")}>
             Amount

@@ -7,6 +7,8 @@ export type Service = {
   name: string;
   id: number;
   plans: Plan[];
+  category: string;
+  img: string;
 };
 
 export type ServicesType = Service[];
@@ -22,4 +24,5 @@ export type SubscriptionType = {
   duration: string;
   timeCreated: Date;
   renews: Date;
+  category?: string;
 };

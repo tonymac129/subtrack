@@ -15,7 +15,9 @@
                 "name": "Pro",
                 "price": 200.0
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "chatgpt.png"
     },
     {
         "id": 1,
@@ -29,7 +31,9 @@
                 "name": "Enterprise",
                 "price": 21.0
             }
-        ]
+        ],
+        "category": "Dev",
+        "img": "github.png"
     },
     {
         "id": 2,
@@ -51,7 +55,9 @@
                 "name": "Bundles coming soon",
                 "price": 0.0
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "hbo.png"
     },
     {
         "id": 3,
@@ -73,7 +79,9 @@
                 "name": "Premium Lite",
                 "price": 7.99
             }
-        ]
+        ],
+        "category": "Media",
+        "img": "youtube.webp"
     },
     {
         "id": 4,
@@ -99,7 +107,9 @@
                 "name": "Google AI Ultra",
                 "price": 249.99
             }
-        ]
+        ],
+        "category": "Cloud",
+        "img": "google.webp"
     },
     {
         "id": 5,
@@ -117,7 +127,9 @@
                 "name": "Premium",
                 "price": 24.99
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "nextflix.png"
     },
     {
         "id": 6,
@@ -135,7 +147,9 @@
                 "name": "Bundles coming soon",
                 "price": 0.0
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "disney.png"
     },
     {
         "id": 7,
@@ -153,7 +167,9 @@
                 "name": "Prime Access",
                 "price": 6.99
             }
-        ]
+        ],
+        "category": "Retail",
+        "img": "prime.png"
     },
     {
         "id": 8,
@@ -175,7 +191,9 @@
                 "name": "Student",
                 "price": 5.99
             }
-        ]
+        ],
+        "category": "Media",
+        "img": "spotify.png"
     },
     {
         "id": 9,
@@ -193,7 +211,9 @@
                 "name": "Hulu Premium",
                 "price": 18.99
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "hulu.png"
     },
     {
         "id": 10,
@@ -207,7 +227,9 @@
                 "name": "Nitro Basic",
                 "price": 2.99
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "discord.webp"
     },
     {
         "id": 11,
@@ -233,7 +255,9 @@
                 "name": "Mega Fan + Manga",
                 "price": 15.49
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "crunchyroll.png"
     },
     {
         "id": 12,
@@ -275,7 +299,9 @@
                 "name": "Enterprise E5",
                 "price": 57.00
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "microsoft-365.png"
     },
     {
         "id": 13,
@@ -293,7 +319,9 @@
                 "name": "Family",
                 "price": 16.99
             }
-        ]
+        ],
+        "category": "Media",
+        "img": "apple-music.png"
     },
     {
         "id": 14,
@@ -315,7 +343,9 @@
                 "name": "Advanced",
                 "price": 30.00
             }
-        ]
+        ],
+        "category": "Cloud",
+        "img": "dropbox.png"
     },
     {
         "id": 15,
@@ -329,7 +359,9 @@
                 "name": "Pro",
                 "price": 69.99
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "adobe.png"
     },
     {
         "id": 16,
@@ -347,7 +379,9 @@
                 "name": "Max",
                 "price": 29.99
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "duolingo.png"
     },
     {
         "id": 17,
@@ -365,7 +399,9 @@
                 "name": "Max",
                 "price": 17.99
             }
-        ]
+        ],
+        "category": "Gaming",
+        "img": "playstation.png"
     },
     {
         "id": 18,
@@ -387,7 +423,9 @@
                 "name": "PC Only",
                 "price": 16.49
             }
-        ]
+        ],
+        "category": "Gaming",
+        "img": "xbox.png"
     },
     {
         "id": 19,
@@ -401,7 +439,9 @@
                 "name": "Student",
                 "price": 5.99
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "apple-tv.png"
     },
     {
         "id": 20,
@@ -415,7 +455,9 @@
                 "name": "Premium",
                 "price": 12.99
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "paramoun.svg"
     },
     {
         "id": 21,
@@ -433,7 +475,9 @@
                 "name": "Premium Plus",
                 "price": 16.99
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "peacock.png"
     },
     {
         "id": 22,
@@ -447,7 +491,9 @@
                 "name": "Unlimited",
                 "price": 29.99
             }
-        ]
+        ],
+        "category": "TV",
+        "img": "espn.png"
     },
     {
         "id": 23,
@@ -461,7 +507,9 @@
                 "name": "Business",
                 "price": 24.00
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "notion.png"
     },
     {
         "id": 24,
@@ -479,7 +527,9 @@
                 "name": "Plus",
                 "price": 22.00
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "google.png"
     },
     {
         "id": 25,
@@ -493,7 +543,9 @@
                 "name": "Business",
                 "price": 21.99
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "zoom.webp"
     },
     {
         "id": 26,
@@ -511,7 +563,9 @@
                 "name": "Ultimate",
                 "price": 100.00
             }
-        ]
+        ],
+        "category": "Internet",
+        "img": "verizon.png"
     },
     {
         "id": 27,
@@ -541,7 +595,9 @@
                 "name": "4GB",
                 "price": 40.00
             }
-        ]
+        ],
+        "category": "Internet",
+        "img": "att.webp"
     },
     {
         "id": 28,
@@ -559,7 +615,9 @@
                 "name": "Experience Beyond",
                 "price": 105.00
             }
-        ]
+        ],
+        "category": "Internet",
+        "img": "tmobile.png"
     },
     {
         "id": 29,
@@ -573,7 +631,9 @@
                 "name": "Black Card",
                 "price": 24.99
             }
-        ]
+        ],
+        "category": "Other",
+        "img": "planet-fitness.png"
     },
     {
         "id": 30,
@@ -587,7 +647,9 @@
                 "name": "Executive Membership",
                 "price": 10.83
             }
-        ]
+        ],
+        "category": "Retail",
+        "img": "costco.png"
     },
     {
         "id": 31,
@@ -601,7 +663,9 @@
                 "name": "Business",
                 "price": 20.00
             }
-        ]
+        ],
+        "category": "Software",
+        "img": "canva.png"
     },
     {
         "id": 32,
@@ -611,7 +675,9 @@
                 "name": "Premium",
                 "price": 5.99
             }
-        ]
+        ],
+        "category": "Other",
+        "img": "reddit.png"
     },
     {
         "id": 33,
@@ -629,7 +695,9 @@
                 "name": "Premium+",
                 "price": 40.00
             }
-        ]
+        ],
+        "category": "Other",
+        "img": "x.png"
     },
     {
         "id": 34,
@@ -639,7 +707,9 @@
                 "name": "Pro",
                 "price": 20.00
             }
-        ]
+        ],
+        "category": "Dev",
+        "img": "vercel.png"
     },
     {
         "id": 35,
@@ -653,7 +723,9 @@
                 "name": "Business",
                 "price": 250.00
             }
-        ]
+        ],
+        "category": "Dev",
+        "img": "cloudflare.png"
     },
     {
         "id": 36,
@@ -667,7 +739,9 @@
                 "name": "All Access Family",
                 "price": 32.14
             }
-        ]
+        ],
+        "category": "Other",
+        "img": "ny-times.png"
     },
     {
         "id": 37,
@@ -693,6 +767,8 @@
                 "name": "12 TB",
                 "price": 59.99
             }
-        ]
+        ],
+        "category": "Cloud",
+        "img": "icloud.png"
     }
 ]
