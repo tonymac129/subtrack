@@ -15,7 +15,7 @@ import { FiFilter } from "react-icons/fi";
 
 const services: ServicesType = await fetch("/data/services.json").then((res) => res.json());
 
-const categories = ["TV", "Media", "Software", "Dev", "Cloud", "Internet", "Gaming", "Retail", "Other"];
+const categories = ["Bundle", "TV", "Media", "Software", "Dev", "Cloud", "Internet", "Gaming", "Retail", "Other"];
 
 async function getDBSubs() {
   const userData: UserType = JSON.parse(sessionStorage.getItem("subtrack-user"));

@@ -5,6 +5,7 @@ import { BiGlobe } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import Modal from "@/components/Modal";
 import LoginModal from "@/components/modals/LoginModal";
 import SignupModal from "@/components/modals/SignupModal";
@@ -33,7 +34,8 @@ function Landing({ setIsLoggedIn }: LandingProps) {
     <div className="bg-gray-950 flex flex-col">
       <title>Subtrack: the best subscription, account, and project manager</title>
       <nav className="flex items-center sticky top-0 bg-gray-950 z-10 justify-between px-90 py-3 border-b-2 border-gray-700">
-        <Link href="/" className="text-white font-bold text-2xl">
+        <Link href="/" className="text-white font-bold text-xl flex items-center gap-x-3">
+          <Image src="/logo.png" alt="Subtrack Logo" width={30} height={30} />
           Subtrack
         </Link>
         <div className="flex gap-x-3">

@@ -38,7 +38,7 @@ const customSub = {
   img: "",
 };
 
-const categories = ["TV", "Media", "Software", "Dev", "Cloud", "Internet", "Gaming", "Retail", "Other"];
+const categories = ["Bundle", "TV", "Media", "Software", "Dev", "Cloud", "Internet", "Gaming", "Retail", "Other"];
 
 function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddModalProps) {
   const [search, setSearch] = useState("");
@@ -127,7 +127,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                 />
               )}
             </div>
-            <div className="flex gap-x-2">
+            <div className="flex gap-2 flex-wrap">
               {categories.map((category, i) => {
                 return (
                   <div
@@ -142,7 +142,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
                 );
               })}
             </div>
-            <div className="text-white text-lg flex flex-wrap items-start gap-3 overflow-auto ">
+            <div className="text-white text-lg flex flex-wrap items-start gap-3 h-120 overflow-auto ">
               <div>
                 <div
                   className={`border-2 h-30 rounded-lg border-${

@@ -129,7 +129,7 @@
             }
         ],
         "category": "TV",
-        "img": "nextflix.png"
+        "img": "netflix.png"
     },
     {
         "id": 6,
@@ -457,7 +457,7 @@
             }
         ],
         "category": "TV",
-        "img": "paramoun.svg"
+        "img": "paramount.svg"
     },
     {
         "id": 21,
@@ -770,5 +770,85 @@
         ],
         "category": "Cloud",
         "img": "icloud.png"
+    },
+    {
+        "id": 38,
+        "name": "Disney+, Hulu, HBO Max Bundle",
+        "plans": [
+            {
+                "name": "With Ads",
+                "price": 19.99
+            },
+            {
+                "name": "No Ads",
+                "price": 32.99
+            }
+        ],
+        "category": "Bundle",
+        "img": "dhm-bundle.jpg"
+    },
+    {
+        "id": 39,
+        "name": "Disney+, Hulu Bundle",
+        "plans": [
+            {
+                "name": "Basic",
+                "price": 12.99
+            },
+            {
+                "name": "Premium",
+                "price": 19.99
+            }
+        ],
+        "category": "Bundle",
+        "img": "dh-bundle.webp"
+    },
+    {
+        "id": 40,
+        "name": "Disney+, Hulu, ESPN Bundle",
+        "plans": [
+            {
+                "name": "Basic",
+                "price": 35.99
+            },
+            {
+                "name": "Premium",
+                "price": 44.99
+            }
+        ],
+        "category": "Bundle",
+        "img": "dhe-bundle.png"
+    },
+    {
+        "id": 41,
+        "name": "Verizon Netflix & Max Bundle",
+        "plans": [
+            {
+                "name": "With Ads",
+                "price": 10
+            }
+        ],
+        "category": "Bundle",
+        "img": "verizon.png"
+    },
+    {
+        "id": 42,
+        "name": "Apple One",
+        "plans": [
+            {
+                "name": "Individual",
+                "price": 19.95
+            },
+            {
+                "name": "Family",
+                "price": 25.95
+            },
+            {
+                "name": "Premier",
+                "price": 37.95
+            }
+        ],
+        "category": "Bundle",
+        "img": "apple.png"
     }
 ]
