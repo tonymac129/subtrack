@@ -10,7 +10,7 @@ import Modal from "@/components/Modal";
 import AddModal from "@/components/modals/AddModal";
 import WarningModal from "@/components/modals/WarningModal";
 import { UserType } from "@/types/user";
-import Stat from "./Stat";
+import Stat from "@/components/ui/Stat";
 import { FiFilter } from "react-icons/fi";
 
 const services: ServicesType = await fetch("/data/services.json").then((res) => res.json());
@@ -266,7 +266,7 @@ function Page() {
           <div className="flex-1 cursor-pointer" onClick={() => handleSort("renews")}>
             Renews
           </div>
-          <div className="w-3.75"></div>
+          <div className="w-3.75"></div> {/*This is necessary for spacing don't delete this*/}
         </div>
         <hr className="h-0.5 bg-gray-700 border-none" />
       </div>

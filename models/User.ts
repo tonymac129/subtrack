@@ -1,11 +1,13 @@
 import { Schema, model, models, Document } from "mongoose";
 import { SubscriptionType } from "@/types/subscriptions";
+import { AccountType } from "@/types/accounts";
 
 interface UserType extends Document {
   username: string;
   password: string;
   display: string;
   subscriptions: SubscriptionType[];
+  accounts: AccountType[];
 }
 
 const UserSchema = new Schema<UserType>(
@@ -24,6 +26,10 @@ const UserSchema = new Schema<UserType>(
       type: [Schema.Types.Mixed],
       default: [],
     } as unknown as SubscriptionType[],
+    accounts: {
+      type: [Schema.Types.Mixed],
+      default: [],
+    } as unknown as AccountType[],
   },
   { timestamps: true }
 );

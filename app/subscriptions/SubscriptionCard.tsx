@@ -1,10 +1,11 @@
 import { ServicesType } from "@/types/subscriptions";
+import { AccountsType } from "@/types/accounts";
 import Image from "next/image";
 
 type SubscriptionCardProps = {
   id: number;
   selected?: boolean;
-  services: ServicesType;
+  services: ServicesType | AccountsType;
 };
 
 function SubscriptionCard({ id, selected, services }: SubscriptionCardProps) {

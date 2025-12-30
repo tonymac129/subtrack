@@ -1,0 +1,187 @@
+[
+    {
+        "id": 4,
+        "name": "Google",
+        "img": "google.webp"
+    },
+    {
+        "id": 3,
+        "name": "YouTube",
+        "img": "youtube.webp"
+    },
+    {
+        "id": 32,
+        "name": "Facebook",
+        "img": "facebook.webp"
+    },
+    {
+        "id": 33,
+        "name": "Instagram",
+        "img": "instagram.webp"
+    },
+    {
+        "id": 36,
+        "name": "WhatsApp",
+        "img": "whatsapp.webp"
+    },
+    {
+        "id": 34,
+        "name": "TikTok",
+        "img": "tiktok.png"
+    },
+    {
+        "id": 12,
+        "name": "Microsoft",
+        "img": "microsoft.png"
+    },
+    {
+        "id": 13,
+        "name": "Apple",
+        "img": "apple.png"
+    },
+    {
+        "id": 7,
+        "name": "Amazon",
+        "img": "amazon.webp"
+    },
+    {
+        "id": 0,
+        "name": "ChatGPT",
+        "img": "chatgpt.png"
+    },
+    {
+        "id": 28,
+        "name": "X (Twitter)",
+        "img": "x.png"
+    },
+    {
+        "id": 1,
+        "name": "GitHub",
+        "img": "github.png"
+    },
+    {
+        "id": 5,
+        "name": "Netflix",
+        "img": "netflix.png"
+    },
+    {
+        "id": 27,
+        "name": "Reddit",
+        "img": "reddit.png"
+    },
+    {
+        "id": 35,
+        "name": "LinkedIn",
+        "img": "linkedin.webp"
+    },
+    {
+        "id": 10,
+        "name": "Discord",
+        "img": "discord.webp"
+    },
+    {
+        "id": 8,
+        "name": "Spotify",
+        "img": "spotify.png"
+    },
+    {
+        "id": 37,
+        "name": "Pinterest",
+        "img": "pinterest.png"
+    },
+    {
+        "id": 24,
+        "name": "Zoom",
+        "img": "zoom.webp"
+    },
+    {
+        "id": 17,
+        "name": "Steam",
+        "img": "steam.webp"
+    },
+    {
+        "id": 6,
+        "name": "Disney+",
+        "img": "disney.png"
+    },
+    {
+        "id": 30,
+        "name": "Cloudflare",
+        "img": "cloudflare.png"
+    },
+    {
+        "id": 26,
+        "name": "Canva",
+        "img": "canva.png"
+    },
+    {
+        "id": 15,
+        "name": "Adobe",
+        "img": "adobe-logo.png"
+    },
+    {
+        "id": 16,
+        "name": "Duolingo",
+        "img": "duolingo.png"
+    },
+    {
+        "id": 14,
+        "name": "Dropbox",
+        "img": "dropbox.png"
+    },
+    {
+        "id": 2,
+        "name": "HBO Max",
+        "img": "hbo.png"
+    },
+    {
+        "id": 23,
+        "name": "Notion",
+        "img": "notion.png"
+    },
+    {
+        "id": 18,
+        "name": "Xbox",
+        "img": "xbox.png"
+    },
+    {
+        "id": 9,
+        "name": "Hulu",
+        "img": "hulu.png"
+    },
+    {
+        "id": 11,
+        "name": "Crunchyroll",
+        "img": "crunchyroll.png"
+    },
+    {
+        "id": 31,
+        "name": "New York Times",
+        "img": "ny-times.png"
+    },
+    {
+        "id": 25,
+        "name": "Costco",
+        "img": "costco.png"
+    },
+    {
+        "id": 29,
+        "name": "Vercel",
+        "img": "vercel.png"
+    },
+    {
+        "id": 20,
+        "name": "Paramount+",
+        "img": "paramount.svg"
+    },
+    {
+        "id": 21,
+        "name": "Peacock",
+        "img": "peacock.png"
+    },
+    {
+        "id": 22,
+        "name": "ESPN+",
+        "img": "espn.png"
+    }
+]

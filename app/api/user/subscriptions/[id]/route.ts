@@ -10,6 +10,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const existingUser = await User.findById(id);
     if (!existingUser) return NextResponse.json({ message: "Error: failed to retrieve user data" }, { status: 404 });
     const yesterday = new Date(`${new Date().toLocaleDateString()}`);
+    //TODO: fix this again renews is stored in utc for some reason
     const updatedSubscriptions = existingUser.subscriptions.map((sub: SubscriptionType) => {
       const nextRenewal = new Date(sub.renews);
       while (nextRenewal < yesterday) {

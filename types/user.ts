@@ -1,4 +1,5 @@
 import { SubscriptionType } from "./subscriptions";
+import { AccountType } from "./accounts";
 
 export type UserType = {
   username: string;
@@ -9,4 +10,5 @@ export type UserType = {
   _id?: string;
   __v?: number;
   subscriptions?: SubscriptionType[];
+  accounts?: AccountType[];
 };

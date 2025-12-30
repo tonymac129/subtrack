@@ -58,7 +58,7 @@ function AddModal({ close, services, userSubs, setUserSubs, importedData }: AddM
       description: "",
       duration: "month",
       timeCreated: new Date(),
-      renews: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+      renews: new Date(new Date().setMonth(new Date().getMonth() + 1)), //TODO: this is probably whats setting renewal to utc
     }
   );
   const displayed = useMemo(
