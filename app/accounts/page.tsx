@@ -15,13 +15,12 @@ const services: AccountsType = await fetch("/data/accounts.json").then((res) => 
 
 async function getUserAccounts() {
   const userData: UserType = JSON.parse(sessionStorage.getItem("subtrack-user"));
-  console.log(userData);
-
   const res = await fetch(`/api/accounts?id=${userData._id}`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ createdAt: userData.createdAt }),
   });
   const data = await res.json();
   return data;
@@ -49,9 +48,39 @@ function Page() {
       return [];
     }
   });
-  const displayed = useMemo<AccountType[]>(
-    () => userAccounts?.filter((account) => account.service.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())),
-    [search, userAccounts]
+  const displayed = useMemo<AccountType[]>(() => {
+    const query = search.trim().toLocaleLowerCase();
+    return userAccounts?.filter(
+      (account) =>
+        account.service.toLocaleLowerCase().includes(query) ||
+        account.username.toLocaleLowerCase().includes(query) ||
+        account.notes.toLocaleLowerCase().includes(query)
+    );
+  }, [search, userAccounts]);
+  const uniquePasswords = useMemo<string[]>(
+    () =>
+      userAccounts?.reduce((acc: string[], account: AccountType) => {
+        if (!acc.includes(account.password)) acc.push(account.password);
+        return acc;
+      }, []),
+    [userAccounts]
+  );
+  const uniqueUsernames = useMemo<string[]>(
+    () =>
+      userAccounts?.reduce((acc: string[], account: AccountType) => {
+        if (!acc.includes(account.username)) acc.push(account.username);
+        return acc;
+      }, []),
+    [userAccounts]
+  );
+  const averagePasswordLength = useMemo<number>(
+    () =>
+      Math.round(
+        (userAccounts?.reduce((acc: number, account: AccountType) => (acc += account.password.length), 0) /
+          userAccounts?.length) *
+          1000
+      ) / 1000, //super fancy smart calculation that keeps 3 points of precision
+    [userAccounts]
   );
 
   async function updateUserAccounts() {
@@ -105,6 +134,17 @@ function Page() {
       <div className="flex gap-x-5 items-center">
         <div className="flex-1 border-gray-700 border-2 rounded-lg h-full flex justify-between px-5 items-center">
           <Stat big={userAccounts?.length.toString()} description={`Total account${userAccounts?.length === 1 ? "" : "s"}`} />
+          <Stat
+            big={uniquePasswords?.length.toString()}
+            description={`Unique password${uniquePasswords?.length === 1 ? "" : "s"}`}
+          />
+          <Stat
+            big={uniqueUsernames?.length.toString()}
+            description={`Unique username${uniqueUsernames?.length === 1 ? "" : "s"}`}
+          />
+          {!Number.isNaN(averagePasswordLength) && (
+            <Stat big={averagePasswordLength?.toString()} description="Average password length" />
+          )}
         </div>
         <div
           className="flex flex-col items-center border-2 border-gray-700 rounded-lg px-3 cursor-pointer text-gray-300 text-sm

@@ -8,29 +8,35 @@ import { AccountType } from "@/types/accounts";
 
 const ALGO = "aes-256-gcm";
 const KEY = Buffer.from(process.env.SECRET_KEY, "base64");
+//top secret key from .env.local!!! trusty vercel will never let you see this right... right???
 
 if (KEY.length !== 32) {
   throw new Error("Invalid SECRET_KEY length");
 }
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const userID = req.nextUrl.searchParams.get("id");
+    const { createdAt } = await req.json();
     await dbConnect();
     const existingUser = await User.findById(userID);
-    const decryptedAccounts = existingUser.accounts.map((account: AccountType) => {
-      const decipher = crypto.createDecipheriv(ALGO, KEY, Buffer.from(account.iv, "base64"));
-      decipher.setAuthTag(Buffer.from(account.authTag, "base64"));
-      let decrypted = decipher.update(account.password, "base64", "utf8");
-      decrypted += decipher.final("utf8");
-      return { ...account, password: decrypted };
-      //Fancy encryption logic learned from ChatGPT and research
-      //TODO: critical security vulnerability if someone guesses mongodb user id the passwords are cooked bc api endpoint is exposed
-    });
-    if (existingUser) {
-      return NextResponse.json(decryptedAccounts);
+    if (existingUser.createdAt.getTime() === new Date(createdAt).getTime()) {
+      const decryptedAccounts = existingUser.accounts.map((account: AccountType) => {
+        const decipher = crypto.createDecipheriv(ALGO, KEY, Buffer.from(account.iv, "base64"));
+        decipher.setAuthTag(Buffer.from(account.authTag, "base64"));
+        let decrypted = decipher.update(account.password, "base64", "utf8");
+        decrypted += decipher.final("utf8");
+        return { ...account, password: decrypted };
+        //Fancy encryption logic learned from ChatGPT and research
+      });
+      if (existingUser) {
+        return NextResponse.json(decryptedAccounts);
+      } else {
+        return NextResponse.json({ message: "User does not exist" }, { status: 404 });
+      }
     } else {
-      return NextResponse.json({ message: "User does not exist" }, { status: 404 });
+      console.log("not authorized");
+      return NextResponse.json({ message: "You are not authorized to fetch this user's data" });
     }
   } catch (err) {
     console.error(err);
