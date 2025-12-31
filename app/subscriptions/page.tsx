@@ -17,7 +17,7 @@ const services: ServicesType = await fetch("/data/services.json").then((res) => 
 
 const categories = ["Bundle", "TV", "Media", "Software", "Dev", "Cloud", "Internet", "Gaming", "Retail", "Other"];
 
-async function getDBSubs() {
+export async function getDBSubs() {
   const userData: UserType = JSON.parse(sessionStorage.getItem("subtrack-user"));
   const res = await fetch(`/api/user/subscriptions/${userData._id}`, {
     method: "GET",
