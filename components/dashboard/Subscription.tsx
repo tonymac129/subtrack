@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { SubscriptionType } from "@/types/subscriptions";
-import { getDBSubs } from "@/app/subscriptions/page";
 import Stat from "../ui/Stat";
 
 type CompareObject = {
@@ -30,19 +29,9 @@ const expensive: CompareObject[] = [
   { name: "Logitech mice", price: 7.99 },
 ];
 
-function Subscription() {
+function Subscription({ userSubs }: { userSubs: SubscriptionType[] }) {
   const [selectedCheap, setSelectedCheap] = useState<number>(0);
   const [selectedExpensive, setSelectedExpensive] = useState<number>(0);
-  const [userSubs, setUserSubs] = useState<SubscriptionType[] | null>(() => {
-    if (typeof window !== "undefined") {
-      if (sessionStorage.getItem("subtrack-user")) {
-        return null;
-      } else {
-        const stored = localStorage.getItem("subtrack-subs");
-        return stored ? JSON.parse(stored) : [];
-      }
-    }
-  });
   const monthlyTotal = useMemo(() => {
     const total = userSubs?.reduce((acc, sub) => {
       if (sub.duration === "month") {
@@ -56,9 +45,6 @@ function Subscription() {
   }, [userSubs]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("subtrack-user")) {
-      getDBSubs().then(setUserSubs);
-    }
     setSelectedCheap(Math.floor(Math.random() * cheap.length));
     setSelectedExpensive(Math.floor(Math.random() * expensive.length));
   }, []);
@@ -90,7 +76,7 @@ function Subscription() {
         </span>{" "}
         you could&apos;ve gotten this month and{" "}
         <span className="underline cursor-pointer" onClick={() => setSelectedExpensive((prev) => prev + 1)}>
-          {Math.round(monthlyTotal / expensive[selectedExpensive % expensive.length].price) / 10}{" "}
+          {Math.round((monthlyTotal * 12) / expensive[selectedExpensive % expensive.length].price) / 10}{" "}
           {expensive[selectedExpensive % expensive.length].name}
         </span>{" "}
         you could&apos;ve bought this year.

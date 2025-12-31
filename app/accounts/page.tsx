@@ -13,7 +13,7 @@ import { UserType } from "@/types/user";
 
 const services: AccountsType = await fetch("/data/accounts.json").then((res) => res.json());
 
-async function getUserAccounts() {
+export async function getUserAccounts() {
   const userData: UserType = JSON.parse(sessionStorage.getItem("subtrack-user"));
   const res = await fetch(`/api/accounts?id=${userData._id}`, {
     method: "POST",

@@ -8,7 +8,7 @@ type StatProps = {
 
 function Stat({ big, description, info }: StatProps) {
   return (
-    <div className="flex flex-col gap-y-5">
+    <div className="flex flex-col gap-y-5 w-[30%]">
       <h1 className="text-blue-600 font-extrabold text-4xl">{big}</h1>
       <div className="text-gray-300 text-sm flex gap-x-2">
         {description}

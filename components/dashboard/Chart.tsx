@@ -2,17 +2,16 @@
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { SubscriptionType } from "@/types/subscriptions";
-import { getDBSubs } from "@/app/subscriptions/page";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const data = {
-  labels: ["Red", "Blue", "Yellow"],
+  labels: [],
   datasets: [
     {
-      data: [12, 19, 3, 5, 2],
+      data: [],
       backgroundColor: [
         "#6366f1",
         "#06b6d4",
@@ -44,26 +43,9 @@ type Category = {
   count: number;
 };
 
-function Chart() {
-  const [userSubs, setUserSubs] = useState<SubscriptionType[] | null>(() => {
-    if (typeof window !== "undefined") {
-      if (sessionStorage.getItem("subtrack-user")) {
-        return null;
-      } else {
-        const stored = localStorage.getItem("subtrack-subs");
-        return stored ? JSON.parse(stored) : [];
-      }
-    }
-  });
-
+function Chart({ userSubs }: { userSubs: SubscriptionType[] }) {
   useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("subtrack-user")) {
-      getDBSubs().then(setUserSubs);
-    }
-  }, []);
-
-  useEffect(() => {
-    const categories = userSubs.reduce((acc: Category[], sub: SubscriptionType) => {
+    const categories = userSubs?.reduce((acc: Category[], sub: SubscriptionType) => {
       const existingCategory = acc.find((category) => category.name === (sub.category || "Custom"));
       if (!existingCategory) {
         acc.push({ name: sub.category || "Custom", count: 1 });
@@ -72,16 +54,17 @@ function Chart() {
       }
       return acc;
     }, []);
-    categories.sort((a, b) => b.count - a.count);
-    data.labels = categories.map((category) => category.name);
-    data.datasets[0].data = categories.map((category) => category.count);
+    categories?.sort((a, b) => b.count - a.count);
+    data.labels = categories?.map((category) => category.name);
+    data.datasets[0].data = categories?.map((category) => category.count);
     //ik im glazing myself too hard but lowkenuinely i feel so smart coding this
   }, [userSubs]);
+  //TODO: maybe add an option to toggle whether to base on number of services for each category or total money spending for each category
 
   return (
-    <div className="flex flex-col gap-y-3 w-80 px-10 rounded-lg border-2 border-gray-700 p-3">
+    <div className="flex flex-col gap-y-3 w-70 px-10 rounded-lg border-2 border-gray-700 p-3">
       <h2 className="text-blue-600 text-xl font-bold text-center">Subscription types</h2>
-      <Pie options={options} data={data} />
+      {userSubs && <Pie options={options} data={data} />}
     </div>
   );
 }
