@@ -62,6 +62,7 @@ export default function Home() {
           <>
             <Subscription userSubs={userSubs} />
             <Chart userSubs={userSubs} />
+            {/*TODO: chart doesnt render properly*/}
           </>
         ) : (
           <div className="text-white text-lg font-bold p-5 w-full border-2 rounded-lg border-gray-700">

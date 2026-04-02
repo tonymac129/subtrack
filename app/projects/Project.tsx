@@ -3,22 +3,19 @@ import { BiEdit, BiTrash } from "react-icons/bi";
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
 import Modal from "@/components/Modal";
-import AddAccount from "@/components/modals/AddAccount";
 import WarningModal from "@/components/modals/WarningModal";
-import { AccountType, AccountsType } from "@/types/accounts";
-import { GrView } from "react-icons/gr";
+import { ProjectType } from "@/types/projects";
+import AddProject from "@/components/modals/AddProject";
 
-type AccountProps = {
-  account: AccountType;
-  services: AccountsType;
-  setUserAccounts: React.Dispatch<React.SetStateAction<AccountType[]>>;
+type ProjectProps = {
+  project: ProjectType;
+  setUserProjects: React.Dispatch<React.SetStateAction<ProjectType[]>>;
 };
 
-function Account({ account, services, setUserAccounts }: AccountProps) {
+function Project({ project, setUserProjects }: ProjectProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
-  const [viewing, setViewing] = useState<boolean>(false);
   const optionMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,41 +34,33 @@ function Account({ account, services, setUserAccounts }: AccountProps) {
   }, []);
 
   function handleDelete(): void {
-    setUserAccounts((prev) =>
-      prev.filter((prevAccount: AccountType) => prevAccount.id !== account.id),
+    setUserProjects((prev) =>
+      prev.filter((prevProject: ProjectType) => prevProject.id !== project.id),
     );
     setConfirmDelete(false);
   }
 
   return (
     <div className="flex text-gray-100 hover:bg-gray-900 duration-300 w-[calc(100%+32px)] rounded-lg py-3 -left-4 px-4 items-center relative">
-      <span className="flex-1">{account.service}</span>
-      <span
-        className="flex-1 text-sm cursor-pointer hover:underline"
-        title="Copy username or email"
-        onClick={() => navigator.clipboard.writeText(account.username)}
-      >
-        {account.username || "-"}
-      </span>
-      <span
-        className="flex-1 text-sm flex items-center gap-x-3 hover:underline cursor-pointer"
-        title="Copy password"
-        onClick={() => navigator.clipboard.writeText(account.password)}
-      >
-        {viewing && (account.password || "-")}
-        <GrView
-          className="cursor-pointer"
-          size={15}
-          onClick={() => setViewing(!viewing)}
-          title={`${viewing ? "Hide" : "Show"} password`}
-        />
-      </span>
-      <span className="flex-2 text-sm">{account.notes}</span>
+      <span className="flex-1">{project.name}</span>
+      <span className="flex-2 text-sm">{project.description}</span>
       <span
         className="flex-1 text-sm"
-        title={new Date(account.created).toISOString()}
+        title={new Date(project.startDate).toISOString()}
       >
-        {new Date(account.created).toLocaleDateString()}
+        {new Date(project.startDate).toLocaleDateString()}
+      </span>
+      <span
+        className="flex-1 text-sm"
+        title={new Date(project.endDate).toISOString()}
+      >
+        {new Date(project.endDate).toLocaleDateString()}
+      </span>
+      <span
+        className="flex-1 text-sm"
+        title={new Date(project.created).toISOString()}
+      >
+        {new Date(project.created).toLocaleDateString()}
       </span>
       <div ref={optionMenuRef}>
         <SlOptionsVertical
@@ -103,18 +92,17 @@ function Account({ account, services, setUserAccounts }: AccountProps) {
               close={() => setConfirmDelete(false)}
             >
               Are you sure you want to{" "}
-              <span className="text-red-500">delete</span> this account and its
+              <span className="text-red-500">delete</span> this project and its
               related information on Subtrack? This action cannot be undone.
             </WarningModal>
           </Modal>
         )}
         {editing && (
           <Modal close={() => setEditing(false)}>
-            <AddAccount
+            <AddProject
               close={() => setEditing(false)}
-              setUserAccounts={setUserAccounts}
-              services={services}
-              importedData={account}
+              setUserProjects={setUserProjects}
+              importedData={project}
             />
           </Modal>
         )}
@@ -123,4 +111,4 @@ function Account({ account, services, setUserAccounts }: AccountProps) {
   );
 }
 
-export default Account;
+export default Project;
