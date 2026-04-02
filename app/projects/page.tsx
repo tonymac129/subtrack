@@ -94,14 +94,14 @@ function Page() {
 
   function handleSort(method: string): void {
     const newUserProjects = [...userProjects];
-    if (method !== "created") {
+    if (method !== "created" && method !== "start" && method !== "end") {
       newUserProjects.sort((a, b) => a[method].localeCompare(b[method]));
     } else {
       newUserProjects.sort((a, b) => {
         return new Date(a.created).getTime() - new Date(b.created).getTime();
       });
     }
-    if (newUserProjects[0] === newUserProjects[0]) newUserProjects.reverse();
+    if (newUserProjects[0] === userProjects[0]) newUserProjects.reverse();
     setUserProjects(newUserProjects);
   }
 
@@ -159,34 +159,46 @@ function Page() {
       <div>
         <div className="flex text-gray-400 pb-2 text-sm w-full">
           <div
-            className="flex-1 cursor-pointer"
-            onClick={() => handleSort("service")}
+            className="flex-2 cursor-pointer"
+            onClick={() => handleSort("name")}
           >
             Name
           </div>
           <div
-            className="flex-2 cursor-pointer"
-            onClick={() => handleSort("username")}
+            className="flex-3 cursor-pointer"
+            onClick={() => handleSort("description")}
           >
             Description
           </div>
           <div
-            className="flex-1 cursor-pointer"
-            onClick={() => handleSort("notes")}
+            className="flex-3 cursor-pointer"
+            onClick={() => handleSort("people")}
           >
-            Created
+            People
           </div>
           <div
             className="flex-1 cursor-pointer"
-            onClick={() => handleSort("notes")}
+            onClick={() => handleSort("repo")}
+          >
+            Repo
+          </div>
+          <div
+            className="flex-1 cursor-pointer"
+            onClick={() => handleSort("start")}
           >
             Start
           </div>
           <div
             className="flex-1 cursor-pointer"
-            onClick={() => handleSort("notes")}
+            onClick={() => handleSort("end")}
           >
             End
+          </div>
+          <div
+            className="flex-1 cursor-pointer"
+            onClick={() => handleSort("created")}
+          >
+            Created
           </div>
           <div className="w-3.75"></div>{" "}
           {/*This is necessary for spacing don't delete this*/}

@@ -17,6 +17,7 @@ function Project({ project, setUserProjects }: ProjectProps) {
   const [editing, setEditing] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const optionMenuRef = useRef<HTMLDivElement>(null);
+  const repoRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const clickHandler = (e: MouseEvent) => {
@@ -40,24 +41,52 @@ function Project({ project, setUserProjects }: ProjectProps) {
     setConfirmDelete(false);
   }
 
+  function handleClick(e) {
+    if (
+      !repoRef.current.contains(e.target as Node) &&
+      !optionMenuRef.current.contains(e.target as Node)
+    ) {
+      window.open(
+        (project.link.includes("://") ? "" : "https://") + project.link,
+        "_blank",
+      );
+    }
+  }
+
   return (
-    <div className="flex text-gray-100 hover:bg-gray-900 duration-300 w-[calc(100%+32px)] rounded-lg py-3 -left-4 px-4 items-center relative">
-      <span className="flex-1">{project.name}</span>
-      <span className="flex-2 text-sm">{project.description}</span>
+    <div
+      onClick={handleClick}
+      className="cursor-pointer flex text-gray-100 hover:bg-gray-900 duration-300 w-[calc(100%+32px)] rounded-lg py-3 -left-4 px-4 items-center relative"
+    >
+      <span className="flex-2">{project.name}</span>
+      <span className="flex-3 text-sm">{project.description}</span>
+      <span className="flex-3 text-sm">{project.people.join(", ")}</span>
+      <a
+        href={
+          (project.repo.includes("://") ? "" : "https://") + project.repo || ""
+        }
+        target="_blank"
+        className="flex-1 hover:underline text-sm"
+        ref={repoRef}
+      >
+        {project.repo ? "Repo" : ""}
+      </a>
       <span
-        className="flex-1 text-sm"
+        className="flex-1 text-xs"
         title={new Date(project.startDate).toISOString()}
       >
-        {new Date(project.startDate).toLocaleDateString()}
+        {project.startDate
+          ? new Date(project.startDate).toLocaleDateString()
+          : ""}
       </span>
       <span
-        className="flex-1 text-sm"
+        className="flex-1 text-xs"
         title={new Date(project.endDate).toISOString()}
       >
-        {new Date(project.endDate).toLocaleDateString()}
+        {project.endDate ? new Date(project.endDate).toLocaleDateString() : ""}
       </span>
       <span
-        className="flex-1 text-sm"
+        className="flex-1 text-xs"
         title={new Date(project.created).toISOString()}
       >
         {new Date(project.created).toLocaleDateString()}
@@ -83,30 +112,35 @@ function Project({ project, setUserProjects }: ProjectProps) {
             </div>
           </div>
         )}
-      </div>
-      <AnimatePresence>
-        {confirmDelete && (
-          <Modal close={() => setConfirmDelete(false)} height={250} width={450}>
-            <WarningModal
-              operation={handleDelete}
+        <AnimatePresence>
+          {confirmDelete && (
+            <Modal
               close={() => setConfirmDelete(false)}
+              height={250}
+              width={450}
             >
-              Are you sure you want to{" "}
-              <span className="text-red-500">delete</span> this project and its
-              related information on Subtrack? This action cannot be undone.
-            </WarningModal>
-          </Modal>
-        )}
-        {editing && (
-          <Modal close={() => setEditing(false)}>
-            <AddProject
-              close={() => setEditing(false)}
-              setUserProjects={setUserProjects}
-              importedData={project}
-            />
-          </Modal>
-        )}
-      </AnimatePresence>
+              <WarningModal
+                operation={handleDelete}
+                close={() => setConfirmDelete(false)}
+              >
+                Are you sure you want to{" "}
+                <span className="text-red-500">delete</span> this project and
+                its related information on Subtrack? This action cannot be
+                undone.
+              </WarningModal>
+            </Modal>
+          )}
+          {editing && (
+            <Modal close={() => setEditing(false)}>
+              <AddProject
+                close={() => setEditing(false)}
+                setUserProjects={setUserProjects}
+                importedData={project}
+              />
+            </Modal>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

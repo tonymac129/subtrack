@@ -4,7 +4,7 @@ export type ProjectType = {
   description?: string;
   startDate?: Date;
   endDate?: Date;
-  people: string[];
+  people?: string[];
   link: string;
   repo?: string;
   created: Date;
