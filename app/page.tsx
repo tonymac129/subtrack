@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { getDBSubs } from "@/app/subscriptions/page";
 import { getUserAccounts } from "./accounts/page";
+import { getUserProjects } from "./projects/page";
 import { SubscriptionType } from "@/types/subscriptions";
 import { AccountType } from "@/types/accounts";
+import { ProjectType } from "@/types/projects";
 import { MdAccountCircle, MdSubscriptions } from "react-icons/md";
 import { VscGithubProject } from "react-icons/vsc";
 import { FiLogOut } from "react-icons/fi";
@@ -12,6 +14,8 @@ import Option from "@/components/dashboard/Option";
 import Subscription from "@/components/dashboard/Subscription";
 import Chart from "@/components/dashboard/Chart";
 import Account from "@/components/dashboard/Account";
+import Project from "@/components/dashboard/Project";
+import Renewals from "@/components/dashboard/Renewals";
 
 export default function Home() {
   const [userSubs, setUserSubs] = useState<SubscriptionType[] | null>(() => {
@@ -25,9 +29,30 @@ export default function Home() {
     }
   });
   const [userAccounts, setUserAccounts] = useState<AccountType[] | null>(() => {
-    if (typeof window !== "undefined" && localStorage.getItem("subtrack-accounts")) {
+    if (
+      typeof window !== "undefined" &&
+      localStorage.getItem("subtrack-accounts")
+    ) {
       return JSON.parse(localStorage.getItem("subtrack-accounts"));
-    } else if (typeof window !== "undefined" && sessionStorage.getItem("subtrack-user")) {
+    } else if (
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("subtrack-user")
+    ) {
+      return null;
+    } else {
+      return [];
+    }
+  });
+  const [userProjects, setUserProjects] = useState<ProjectType[] | null>(() => {
+    if (
+      typeof window !== "undefined" &&
+      localStorage.getItem("subtrack-projects")
+    ) {
+      return JSON.parse(localStorage.getItem("subtrack-projects"));
+    } else if (
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("subtrack-user")
+    ) {
       return null;
     } else {
       return [];
@@ -35,9 +60,13 @@ export default function Home() {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("subtrack-user")) {
+    if (
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("subtrack-user")
+    ) {
       getDBSubs().then(setUserSubs);
       getUserAccounts().then(setUserAccounts);
+      getUserProjects().then(setUserProjects);
     }
   }, []);
 
@@ -52,12 +81,29 @@ export default function Home() {
         Welcome back to <span className="text-blue-600">Subtrack</span>
       </h1>
       <div className="flex pl-10 gap-x-3 pb-3">
-        <Option text="Add a subscription" link="subscriptions" icon={<MdSubscriptions size={45} />} />
-        <Option text="Add an account" link="accounts" icon={<MdAccountCircle size={45} />} />
-        <Option text="Create a project" link="projects" icon={<VscGithubProject size={45} />} />
-        <Option text="Log out" link="" icon={<FiLogOut color="brown" size={45} />} onClick={handleLogout} />
+        <Option
+          text="Add a subscription"
+          link="subscriptions"
+          icon={<MdSubscriptions size={45} />}
+        />
+        <Option
+          text="Add an account"
+          link="accounts"
+          icon={<MdAccountCircle size={45} />}
+        />
+        <Option
+          text="Create a project"
+          link="projects"
+          icon={<VscGithubProject size={45} />}
+        />
+        <Option
+          text="Log out"
+          link=""
+          icon={<FiLogOut color="brown" size={45} />}
+          onClick={handleLogout}
+        />
       </div>
-      <div className="pl-10 flex flex-wrap gap-3">
+      <div className="pl-10 flex flex-wrap gap-3 pb-3">
         {userSubs?.length > 0 ? (
           <>
             <Subscription userSubs={userSubs} />
@@ -76,7 +122,22 @@ export default function Home() {
             Add an account to see account analytics!
           </div>
         )}
-        <div className="text-white text-lg font-bold p-5 w-full border-2 rounded-lg border-gray-700">Projects coming soon!</div>
+      </div>
+      <div className="pl-10 flex gap-3">
+        {userSubs?.length > 0 ? (
+          <Renewals subscriptions={userSubs} />
+        ) : (
+          <div className="text-white text-lg font-bold p-5 w-full border-2 flex-2 rounded-lg border-gray-700">
+            Add a subscription to see upcoming renewals!
+          </div>
+        )}
+        {userProjects?.length > 0 ? (
+          <Project userProjects={userProjects} />
+        ) : (
+          <div className="text-white text-lg font-bold p-5 w-full flex-1 border-2 rounded-lg border-gray-700">
+            Add a project to see project analytics!
+          </div>
+        )}
       </div>
     </div>
   );
