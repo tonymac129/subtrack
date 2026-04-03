@@ -7,7 +7,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-black?style=for-the-badge&logo=vercel)
 
-⚠️ Currently the app is still in very early development so expect a lot of bugs and things not working. Try the demo [here](https://app-subtrack.vercel.app)!
+![Subtrack](banner.png)
 
 Subtrack is the best manager for keeping track of all your subscriptions, accounts, projects, and more!
 
